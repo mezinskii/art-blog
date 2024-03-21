@@ -1,12 +1,11 @@
 import { ui } from "./ui";
 
 export const LANGUAGES = {
+  ru: "Russian",
   en: "English",
-  fr: "Français",
-  es: "Español",
 };
 
-export const DEFAULT_LANG = "en";
+export const DEFAULT_LANG = "ru";
 
 export type UiType = keyof typeof ui;
 
@@ -24,7 +23,7 @@ export function useTranslations(lang?: UiType) {
     let translation = ui[lang ?? DEFAULT_LANG][key] || ui[DEFAULT_LANG][key];
     if (args.length > 0) {
       for (let i = 0; i < args.length; i++) {
-        translation = translation.replace(`{${i}}`, args[i]);
+        translation = translation.replace(`{${i}}`, args[i]) as any;
       }
     }
     return translation;
