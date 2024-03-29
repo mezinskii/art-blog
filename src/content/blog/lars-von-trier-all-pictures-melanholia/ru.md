@@ -1,216 +1,102 @@
 ---
-title: 'All the pictures in Lars von Trier’s Melancholia'
-description: 'In this article we will look at all the paintings present in Lars von Trier’s Melancholia.'
-pubDate: 'Jul 01 2022'
-heroImage: '/blog-placeholder-1.jpg'
-author: 'Me'
-lang: 'en'
+title: 'Все картины в фильме Меланхолия Ларса фон Триера'
+description: 'В данной статье мы рассмотрим все картины, присутствующие в фильме "Меланхолия" Ларса фон Триера.'
+pubDate: 'Jul 9, 2023'
+heroImage: '/images/lars-von-trier-all-pictures-melanholia/banner_ru.webp'
+author: 'Ян Мезинский'
+avatar: '/images/authors/ian.jpg'
+lang: 'ru'
 ---
 
-Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.
+В данной статье мы рассмотрим все картины, присутствующие в фильме "Меланхолия" Ларса фон Триера. В нем представлены как хорошо известные произведения искусства, так и редко встречающиеся картины. Каждая сцена фильма пронизана символами и отсылками, которые придают ему глубокий смысл. Предлагаю рассмотреть живопись, которую Ларс фон Триер использует, чтобы придать своей работе дополнительный смысл и красоту.
 
-## Headings
+## Охотники на Снегу
 
-The following HTML `<h1>`—`<h6>` elements represent six levels of section headings. `<h1>` is the highest section level while `<h6>` is the lowest.
+В самом начале фильма мы встречаемся с кадрами, которые имеют глубокий смысл и связаны с сюжетом. Большое внимание уделяется картине Охотники на снегу Питера Брейгеля старшего, которая показывается крупным планом. Впоследствии эта картина сгорает перед нами, превращаясь в горящие обломки и пепел. Возможно, режиссер выбрал такую сцену, чтобы подчеркнуть, что эта картина является главным символом фильма.
 
-# H1
+![Охотники на снегу. Питер Брейгель Старший. 1564-1565](/images/lars-von-trier-all-pictures-melanholia/hunters_on_snow.webp)
+*Охотники на снегу. Питер Брейгель Старший. 1564-1565*
 
-## H2
+Главным мотивом на картинах является ловушка для птиц, расположенная в центре. Ее можно заметить только при более пристальном рассмотрении. Символ ловца птиц в Библии ассоциируется с присутствием Дьявола. Птицы, в соответствии с древней традицией, символизируют человеческую душу. Мы можем найти отсылку к этому в Ветхом Завете, в главе 5 книги Иеремии:
 
-### H3
+>"Ибо между народом Моим находятся нечестивые: сторожат, как птицеловы, припадают к земле, ставят ловушки и ловят людей. Как клетка, наполненная птицами, дома их полны обмана".
 
-#### H4
+![Охотники на снегу (фрагмент ловушка для птиц)](/images/lars-von-trier-all-pictures-melanholia/trap.webp)
+*Охотники на снегу (фрагмент ловушка для птиц)*
 
-##### H5
+Фильм разделен на две части: первая называется "Джастин", вторая — именем ее сестры, "Клер". Однако, по моему мнению, фильм разделен не только официально на две части, но и неофициально сценой, где Джастин перелистывает книги в библиотеке. Изначально альбомы открыты на страницах, где представлены современные картины эпохи модерна, такие как работы Малевича в стиле футуризма, кубизма или кубофутуризма. Джастин переворачивает страницы и мы видим другие картины, среди которых вновь появляются "Охотники на снегу". На одной из страниц она также обнаруживает картины "Офелия" [Сэра Джона Эверетта Милле](https://en.wikipedia.org/wiki/John_Everett_Millais "Сэра Джона Эверетта Милле") и "Дочь лесника".
 
-###### H6
+## Офелия и Дочь лесника
 
-## Paragraph
+![Sir John Everett Millais, Ophelia, 1851–52](/images/lars-von-trier-all-pictures-melanholia/ophelia.webp)
+*Sir John Everett Millais, Ophelia, 1851–52*
 
-Xerum, quo qui aut unt expliquam qui dolut labo. Aque venitatiusda cum, voluptionse latur sitiae dolessi aut parist aut dollo enim qui voluptate ma dolestendit peritin re plis aut quas inctum laceat est volestemque commosa as cus endigna tectur, offic to cor sequas etum rerum idem sintibus eiur? Quianimin porecus evelectur, cum que nis nust voloribus ratem aut omnimi, sitatur? Quiatem. Nam, omnis sum am facea corem alique molestrunt et eos evelece arcillit ut aut eos eos nus, sin conecerem erum fuga. Ri oditatquam, ad quibus unda veliamenimin cusam et facea ipsamus es exerum sitate dolores editium rerore eost, temped molorro ratiae volorro te reribus dolorer sperchicium faceata tiustia prat.
+"Офелия" является сценой, запечатленной художником, из пьесы Шекспира "Гамлет, принц Датский", где Гамлет убивает отца Офелии, и она, потеряв рассудок, бросается в ручей и тонет. В начале фильма Джастин появляется в образе Офелии, плывущей по ручью в свадебном платье. [Можно прочитать статью о данной картине](https://smarthistory.org/millais-ophelia/ "Можно прочитать статью о данной картине ") для более подробного анализа ее значимости.
 
-Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sapicia is sinveli squiatum, core et que aut hariosam ex eat.
+![Sir John Everett Millais, The Woodman’s Daughter, 1851](/images/lars-von-trier-all-pictures-melanholia/dauther.webp)
+*Sir John Everett Millais, The Woodman’s Daughter, 1851*
 
-## Images
+История из поэмы Ковентри Патмора "Дочь лесника" рассказывает о мальчике из богатой семьи, который влюбляется в дочь лесника. Они испытывают взаимные чувства, но их любовь оказывается препятствием сословным ограничениями и он не может взять ее в жены. В конечном итоге она топит рожденного ребенка и тонет сама. Обе эти истории заканчиваются трагически и являются прекрасным примером жанра трагедии.
 
-#### Syntax
+Эти две картинки "Офелия" и "Дочь лесника" также углубляют символическую и трагическую атмосферу фильма "Меланхолия". Они добавляют еще большего драматизма и позволяют зрителю проникнуться ощущением надвигающейся катастрофы и ужаса.
 
-```markdown
-![Alt text](./full/or/relative/path/of/image)
-```
+## Страна лентяев (The Land of Cockaigne)
 
-#### Output
+![Pieter Bruegel the Elder, The Land of Cockaigne, 1567](/images/lars-von-trier-all-pictures-melanholia/land.webp)
+*Pieter Bruegel the Elder, The Land of Cockaigne, 1567*
 
-![blog placeholder](/blog-placeholder-about.jpg)
+Литературная традиция земли Кокейн имеет корни, уходящие в средние века. Это вымышленный мир, представляющий собой идиллическую обитель плотских наслаждений. Это ложный Рай или Рай для бездельников. В центре картины находятся три толстых человека, лежащих вокруг круглого стола, который, вероятно, вращается, обслуживая бездельников. На заднем плане видна молочная река. В левом верхнем углу солдат в доспехах просто открыл рот, в ожидании, что еда сама полетит ему в рот.
 
-## Blockquotes
+Возможно, Ларс фон Триер использует этот образ как символ современного мира, полного материальных благ, изобилия еды и излишеств. Фильм может передавать идею о том, что современный человек живет в ложном Раю, который делает его хуже. Удовлетворяя все потребности этого человека, мы создаем бесконечное количество новых потребностей, часто выдуманных специально для того, чтобы удовлетворить их. Другими словами, можно предположить, что эта картина в фильме служит критикой общества потребления, которое нужно разрушить.
 
-The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a `footer` or `cite` element, and optionally with in-line changes such as annotations and abbreviations.
+Такое изображение земли Кокейн искусством Ларса фон Триера может быть использовано для вызова размышлений о последствиях чрезмерного потребительского образа жизни и показать, что истинное счастье и душевное благополучие не достигаются через материальное обладание, а требуют глубинных изменений и переосмысления ценностей.
 
-### Blockquote without attribution
+## Портрет Георга Гизе
 
-#### Syntax
+![Hans Holbein, the younger, Portrait of Georg Giese, 1532](/images/lars-von-trier-all-pictures-melanholia/giese.webp)
+*Hans Holbein, the younger, Portrait of Georg Giese, 1532*
 
-```markdown
-> Tiam, ad mint andaepu dandae nostion secatur sequo quae.  
-> **Note** that you can use _Markdown syntax_ within a blockquote.
-```
+[Видение портрета Георга Гизе](https://en.wikipedia.org/wiki/Portrait_of_Georg_Giese "Видение портрета Георга Гизе") в фильме, рядом с картиной "Страна лентяев", может иметь свое значение. Георг Гизе был членом известного и богатого купеческого рода. Члены Ганзейского союза представляли новый тип купеческого класса, который начал доминировать в торговле в Европе в 14-м и 15-м веках. Они занимались крупномасштабной международной торговлей, импортируя и экспортируя товары на большие расстояния. Эти купцы занимали значительное положение на мировой арене, устанавливая постоянные представительства в крупных городах и управляя своими торговыми империями.
 
-#### Output
+Возможно, в контексте фильма Ларс фон Триер использует образ Георга Гизе как представителя мира "Страны лентяев", где люди получают все богатства без каких-либо усилий. Это может быть комментарием к идеям потребительского общества, где некоторые люди, подобно представителям богатого купеческого класса, получают привилегии и богатство, не трудясь за это. Это может быть критикой несправедливого распределения ресурсов и проблемой неравенства.
 
-> Tiam, ad mint andaepu dandae nostion secatur sequo quae.  
-> **Note** that you can use _Markdown syntax_ within a blockquote.
+Однако, как и с другими интерпретациями в фильме, это лишь одно возможное толкование и символическое значение образа Георга Гизе.
 
-### Blockquote with attribution
+## Гравюра "Негр повешенный за ребро"
 
-#### Syntax
+![Negro hung alive by the Ribs to a Gallows, William Blake, 1738–1809](/images/lars-von-trier-all-pictures-melanholia/negro.webp)
+*Negro hung alive by the Ribs to a Gallows, William Blake, 1738–1809*
 
-```markdown
-> Don't communicate by sharing memory, share memory by communicating.<br>
-> — <cite>Rob Pike[^1]</cite>
-```
+[Включение гравюры](https://artmuseum.princeton.edu/collections/objects/3251 "Включение гравюры") рядом с альбомом, в котором находятся портрет Георга Гизе и картина "Страна лентяев", может быть интерпретировано как намек на последствия колонизации и деятельности крупных торговых компаний. В этом контексте Георг Гизе может быть представлен как символический образ, связанный с виной в убийствах местного населения во время колонизации. За внешней роскошью и богатством скрываются страдания и смерть множества людей.
 
-#### Output
+Такое толкование позволяет увидеть фильм в контексте социальных и исторических проблем, связанных с колониализмом и эксплуатацией ресурсов. Это может быть критикой системы, в которой немногие получают огромные богатства, в то время как множество людей страдают и становятся жертвами этой системы.
 
-> Don't communicate by sharing memory, share memory by communicating.<br>
-> — <cite>Rob Pike[^1]</cite>
+Однако, важно отметить, что фильм может иметь множество слоев толкования и символики, и интерпретация каждого зрителя может быть уникальной.
 
-[^1]: The above quote is excerpted from Rob Pike's [talk](https://www.youtube.com/watch?v=PAAkCSZUG1c) during Gopherfest, November 18, 2015.
+## Давид с головой Голиафа
 
-## Tables
+![David with the Head of Goliath, Caravaggio, 1610](/images/lars-von-trier-all-pictures-melanholia/david.webp)
+*David with the Head of Goliath, Caravaggio, 1610*
 
-#### Syntax
+Картина, изображающая Давида, побеждающего Голиафа и держащего его отсеченную голову, представляет собой библейскую сцену из Ветхого Завета. В этой сцене молодой Давид, представитель добра и веры, побеждает филистимского воина Голиафа, символизирующего зло и врага. Картина иллюстрирует момент победы Давида и подчеркивает тему победы добра над злом.
 
-```markdown
-| Italics   | Bold     | Code   |
-| --------- | -------- | ------ |
-| _italics_ | **bold** | `code` |
-```
+Композиционно и художественно картина привлекает внимание зрителя своей драматичностью, освещением и силой выражения. Темные тени, окутывающие лицо и тело Давида, создают контраст с ярким светом, что усиливает эффект и драматизм сцены.
 
-#### Output
+В контексте фильма, где Джастин перелистывает альбомы и эта картина появляется последней, можно предположить, что она намекает на то, что зло будет уничтожено. Джастин называет злом жизнь на Земле, и данная картина может символизировать надежду на исчезновение зла и наступление благополучия. Она может быть интерпретирована как выражение веры в победу добра над темными и негативными силами, которые присутствуют в мире.
 
-| Italics   | Bold     | Code   |
-| --------- | -------- | ------ |
-| _italics_ | **bold** | `code` |
+## Сад земных наслаждений
 
-## Code Blocks
+![Hieronymus Bosch, The Garden of Earthly Delights (фрагмент центральной панели, левая часть)](/images/lars-von-trier-all-pictures-melanholia/garden.webp)
+*Hieronymus Bosch, The Garden of Earthly Delights (фрагмент центральной панели, левая часть)*
 
-#### Syntax
+Триптих Иеронима Босха "Сад земных наслаждений" действительно является одной из самых странных и загадочных картин в истории искусства. Этот трехстворчатый полотна представляет собой обширную галерею причудливых образов и ужасающих сцен, включая изображение Ада. Фрагмент, который появляется в библиотеке во второй части фильма, относится к левому краю центральной панели рядом с Раем, но большинство фигур на нем обращены в сторону Ада, и предполагается, что он изображает человечество до Потопа.
 
-we can use 3 backticks ``` in new line and write snippet and close with 3 backticks on new line and to highlight language specific syntac, write one word of language name after first 3 backticks, for eg. html, javascript, css, markdown, typescript, txt, bash
+Использование этого фрагмента из триптиха Босха в фильме может иметь различные символические и тематические значения. Он может служить комментарием к падению человечества и его греховности, а также отражать тему гибели и разрушения. Картина Босха известна своей детализацией и обилием причудливых существ и сцен, что может подчеркнуть многообразие и сложность мира, в котором разворачивается фильм.
 
-````markdown
-```html
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Example HTML5 Document</title>
-  </head>
-  <body>
-    <p>Test</p>
-  </body>
-</html>
-```
-````
+## Заключение
 
-Output
+Появление охотников на снегу после того, как Джастин раскрывает картины в альбомах, может служить знаком возрождения средневекового представления о конце света и ожидании последних времен. Сравнение между средневековым временем и современностью может указывать на то, что человечество все еще остается уязвимым перед пороками и злом, и не сумело извлечь уроки из прошлого.
 
-```html
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Example HTML5 Document</title>
-  </head>
-  <body>
-    <p>Test</p>
-  </body>
-</html>
-```
+Джастин в фильме, выступает как медиум, имеющего доступ к глубинным смыслам и пространству, недоступному для обычных людей, может указывать на ее особую роль. Ее уверенность в том, что жизнь на Земле является злом, которое должно быть уничтожено, может отражать гностический взгляд на мир начала первого тысячелетия. Как известно, гностики считали что этот мир устроен "неправильным" Богом, лучший выход - это сбежать из этого мира.
 
-## List Types
-
-### Ordered List
-
-#### Syntax
-
-```markdown
-1. First item
-2. Second item
-3. Third item
-```
-
-#### Output
-
-1. First item
-2. Second item
-3. Third item
-
-### Unordered List
-
-#### Syntax
-
-```markdown
-- List item
-- Another item
-- And another item
-```
-
-#### Output
-
-- List item
-- Another item
-- And another item
-
-### Nested list
-
-#### Syntax
-
-```markdown
-- Fruit
-  - Apple
-  - Orange
-  - Banana
-- Dairy
-  - Milk
-  - Cheese
-```
-
-#### Output
-
-- Fruit
-  - Apple
-  - Orange
-  - Banana
-- Dairy
-  - Milk
-  - Cheese
-
-## Other Elements — abbr, sub, sup, kbd, mark
-
-#### Syntax
-
-```markdown
-<abbr title="Graphics Interchange Format">GIF</abbr> is a bitmap image format.
-
-H<sub>2</sub>O
-
-X<sup>n</sup> + Y<sup>n</sup> = Z<sup>n</sup>
-
-Press <kbd><kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>Delete</kbd></kbd> to end the session.
-
-Most <mark>salamanders</mark> are nocturnal, and hunt for insects, worms, and other small creatures.
-```
-
-#### Output
-
-<abbr title="Graphics Interchange Format">GIF</abbr> is a bitmap image format.
-
-H<sub>2</sub>O
-
-X<sup>n</sup> + Y<sup>n</sup> = Z<sup>n</sup>
-
-Press <kbd><kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>Delete</kbd></kbd> to end the session.
-
-Most <mark>salamanders</mark> are nocturnal, and hunt for insects, worms, and other small creatures.
+Важно отметить, что "Меланхолия" - это фильм с множеством символических и метафорических элементов, и каждый зритель может воспринимать его по-своему. Интерпретация фильма и его символики остается предметом обсуждения и размышлений.

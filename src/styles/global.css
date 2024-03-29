@@ -1,8 +1,6 @@
-/*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
 	--accent: #2337ff;
@@ -15,32 +13,28 @@
 	--box-shadow: 0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
 		0 16px 32px rgba(var(--gray), 33%);
 }
+
 @font-face {
-	font-family: 'Atkinson';
-	src: url('/fonts/atkinson-regular.woff') format('woff');
+	font-family: 'Poppins';
+	src: url('/fonts/Poppins-Regular.ttf') format('ttf');
 	font-weight: 400;
 	font-style: normal;
 	font-display: swap;
 }
 @font-face {
-	font-family: 'Atkinson';
-	src: url('/fonts/atkinson-bold.woff') format('woff');
+	font-family: 'Poppins';
+	src: url('/fonts/Poppins-Bold.ttf') format('ttf');
 	font-weight: 700;
 	font-style: normal;
 	font-display: swap;
 }
 body {
-	font-family: 'Atkinson', sans-serif;
-	margin: 0;
-	padding: 0;
-	text-align: left;
+	font-family: 'Poppins', sans-serif;
 	background: linear-gradient(var(--gray-gradient)) no-repeat;
 	background-size: 100% 600px;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
-	font-size: 20px;
-	line-height: 1.7;
+	@apply text-dark text-xl box-border m-0 p-0 text-left bg-no-repeat leading-10;
 }
 main {
 	width: 720px;
@@ -48,21 +42,36 @@ main {
 	margin: auto;
 	padding: 3em 1em;
 }
+@media (max-width: 720px) {
+	body {
+		@apply text-lg;
+	}
+	main {
+		padding: 1em;
+	}
+}
+@media (max-width:700px) {
+	main {
+	  max-width: calc(100% - 1em);
+	  padding: 2em 0.8em;
+	}
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
+	@apply text-dark;
 	margin: 0 0 0.5rem 0;
-	color: rgb(var(--black));
 	line-height: 1.2;
 }
 h1 {
-	font-size: 3.052em;
+	@apply font-bold text-6xl;
 }
 h2 {
-	font-size: 2.441em;
+	@apply font-bold text-2xl;
 }
 h3 {
 	font-size: 1.953em;
@@ -78,12 +87,13 @@ b {
 	font-weight: 700;
 }
 a {
-	color: var(--accent);
+	@apply text-dark underline;
 }
 a:hover {
-	color: var(--accent);
+	@apply text-gray;
 }
 p {
+	@apply text-dark;
 	margin-bottom: 1em;
 }
 .prose p {
@@ -117,22 +127,11 @@ pre > code {
 	all: unset;
 }
 blockquote {
-	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
-	margin: 0px;
-	font-size: 1.333em;
+	@apply border-l-4 border-dark m-0 text-xl italic pl-5;
 }
 hr {
 	border: none;
 	border-top: 1px solid rgb(var(--gray-light));
-}
-@media (max-width: 720px) {
-	body {
-		font-size: 18px;
-	}
-	main {
-		padding: 1em;
-	}
 }
 
 .sr-only {

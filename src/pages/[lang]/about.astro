@@ -1,6 +1,7 @@
 ---
+import Layout from "../../layouts/Layout.astro";
+
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
-import BlogPost from "../../layouts/BlogPost.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -12,14 +13,36 @@ export async function getStaticPaths() {
 }
 ---
 
-<BlogPost
-  title={t("about.title")}
-  description={t("about.description")}
-  pubDate={new Date("August 08 2021")}
-  heroImage="/blog-placeholder-about.jpg"
-  lang={lang}
->
-  <p>
-    {t("about.text")}
-  </p>
-</BlogPost>
+<Layout title={t("site.title")} description={t("site.description")} lang={lang}>
+  <div class="flex items-center flex-col mb-8">
+    <h1 class="uppercase font-bold mb-8 text-4xl sm:text-6xl">{t("nav.about")}</h1>
+    <ul class="text-3xl">
+      <li class="mb-2">
+        <a class="no-underline" href="https://dzen.ru/ian"
+          ><i class="fa-brands fa-yandex w-8"></i>&nbsp;Dzen</a>
+      </li>
+      <li class="mb-2" class="mb-2">
+        <a class="no-underline" href="https://medium.com/@ian.mezinskii"
+          ><i class="fa-brands fa-medium w-8"></i>&nbsp;Medium</a>
+      </li>
+      <li class="mb-2">
+        <a class="no-underline" href="https://www.youtube.com/@IanMezinskii"
+          ><i class="fa-brands fa-youtube w-8"></i>&nbsp;Youtube</a>
+      </li>
+      <li class="mb-2">
+        <a class="no-underline" href="https://www.threads.net/@mezinskiyio"
+          ><i class="fa-brands fa-threads w-8"></i>&nbsp;Threads</a>
+      </li>
+      <li class="mb-2">
+        <a class="no-underline" href="https://www.facebook.com/profile.php?id=100031461650608"
+          ><i class="fa-brands fa-facebook w-8"></i>&nbsp;Facebook</a
+        >
+      </li>
+      <li>
+        <a class="no-underline" href="https://x.com/IanMezinskii?t=T5Z4HUVhgRsvV5iaXSi0DQ&s=35"
+          ><i class="fa-brands fa-x-twitter w-8"></i>&nbsp;Xtwitter</a
+        >
+      </li>
+    </ul>
+  </div>
+</Layout>

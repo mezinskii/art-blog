@@ -2,44 +2,34 @@
 import Layout from "../layouts/Layout.astro";
 
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import { Image } from "astro:assets";
+import myImage from "../../public/images/authors/ian.jpg";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+export async function getStaticPaths() {
+  return ["en", "ru"].map((lang) => {
+    return { params: { lang } };
+  });
+}
 ---
 
 <Layout title={t("site.title")} description={t("site.description")} lang={lang}>
-  <h1>{t("home.welcome")}</h1>
-  <p>
-    {t("home.p1")}
-  </p>
-  <p>
+  <div class="flex items-center flex-col mb-8">
+    <Image
+      class="rounded-full w-32 h-auto block mb-4"
+      src={myImage}
+      widths={[240, 540, 720, myImage.width]}
+      sizes={`(max-width: 360px) 240px, (max-width: 720px) 540px, (max-width: 1600px) 720px, ${myImage.width}px`}
+      alt="A description of my image."
+    />
+    <h1 class="uppercase font-bold mb-8">{t("site.title")}</h1>
+    <p class="uppercase font-bold text-xl sm:text-2xl">
+      {t("home.p1")}
+    </p>
+  </div>
+  <p class="text-2xl">
     {t("home.p2")}
-  </p>
-  <p>Here are a few ideas on how to get started with the template:</p>
-  <ul>
-    <li>Edit this page in <code>src/pages/index.astro</code></li>
-    <li>
-      Edit the site header items in <code>src/components/Header.astro</code>
-    </li>
-    <li>
-      Add your name to the footer in <code>src/components/Footer.astro</code>
-    </li>
-    <li>Check out the included blog posts in <code>src/pages/blog/</code></li>
-    <li>
-      Customize the blog post page layout in <code
-        >src/layouts/BlogPost.astro</code>
-    </li>
-  </ul>
-  <p>
-    Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-      >read the docs
-    </a> or <a href="https://astro.build/chat">join us on Discord</a> to ask
-    questions.
-  </p>
-  <p>
-    Looking for a blog template with a bit more personality? Check out <a
-      href="https://github.com/Charca/astro-blog-template"
-      >astro-blog-template
-    </a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
   </p>
 </Layout>

@@ -2,12 +2,12 @@
 import type { HTMLAttributes } from "astro/types";
 import { getLocalizedPathname } from "../i18n/utils";
 
-type Props = HTMLAttributes<"a">;
+type Props = HTMLAttributes<"a"> & { language: "ru" | "en", isActive: boolean };
 
 const { language, class: className, ...props } = Astro.props;
 const { pathname } = Astro.url;
 
-const lang = Astro.params?.lang || "en";
+const lang = Astro.params?.lang || "ru";
 const isActive = language === lang;
 
 const href = getLocalizedPathname(pathname, language);
@@ -17,10 +17,9 @@ const href = getLocalizedPathname(pathname, language);
   {language}
 </a>
 <style>
-  a {
-    display: inline-block;
-    text-decoration: none;
-  }
+ a {
+	  @apply inline-block no-underline text-base sm:text-lg;
+	}
   a.active {
     font-weight: bolder;
     text-decoration: underline;

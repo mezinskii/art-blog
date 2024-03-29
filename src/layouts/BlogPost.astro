@@ -2,11 +2,20 @@
 import type { CollectionEntry } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
 import Layout from "./Layout.astro";
+import { Image } from "astro:assets";
 
 type Props = CollectionEntry<"blog">["data"];
 
-const { title, description, pubDate, updatedDate, heroImage, lang } =
-  Astro.props;
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  heroImage,
+  lang,
+  author,
+  avatar,
+} = Astro.props;
 ---
 
 <Layout
@@ -18,23 +27,35 @@ const { title, description, pubDate, updatedDate, heroImage, lang } =
   lang={lang}
 >
   <article>
-    <div class="hero-image">
-      {heroImage && <img width={1020} height={510} src={heroImage} alt="" />}
-    </div>
     <div class="prose">
-      <div class="title">
-        <div class="date">
-          <FormattedDate date={pubDate} />
-          {
-            updatedDate && (
-              <div class="last-updated-on">
-                Last updated on <FormattedDate date={updatedDate} />
-              </div>
-            )
-          }
+      <div class="mb-8">
+        <h1 class="font-bold m-0 text-3xl sm:text-4xl">{title}</h1>
+      </div>
+      <hr />
+      <div class="flex items-center px-1 py-2">
+        <div>
+          <Image class="rounded-full" width="44" height="44" loading="lazy" src={avatar || ""} alt={author || ""} />
         </div>
-        <h1>{title}</h1>
-        <hr />
+        <div class="ml-2 flex flex-col">
+            <span class="text-base">{author}</span>
+            <FormattedDate lang={lang} date={pubDate} />
+            {
+              updatedDate && (
+                <div class="last-updated-on">
+                  Last updated on{" "}
+                  <FormattedDate lang={lang} date={updatedDate} />
+                </div>
+              )
+            }
+        </div>
+      </div>
+      <hr />
+      <div class="mb-10 mt-10">
+        {
+          heroImage && (
+            <Image width={1020} height={510} src={heroImage} loading="lazy" alt={title} />
+          )
+        }
       </div>
       <slot />
     </div>

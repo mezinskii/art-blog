@@ -14,7 +14,7 @@ interface Props {
 	title: string;
 	description: string;
 	image?: string;
-	lang: string;
+	lang?: string;
 }
 
 const canonicalPathname = pathNameIsInLanguage(Astro.url.pathname, DEFAULT_LANG)
@@ -49,16 +49,16 @@ const alternateLinks = alternateLang.map((_lang: UiType) => {
 <!-- Font preloads -->
 <link
 	rel="preload"
-	href="/fonts/atkinson-regular.woff"
+	href="/fonts/Poppins-Regular.ttf"
 	as="font"
-	type="font/woff"
+	type="font/ttf"
 	crossorigin
 />
 <link
 	rel="preload"
-	href="/fonts/atkinson-bold.woff"
+	href="/fonts/Poppins-Bold.ttf"
 	as="font"
-	type="font/woff"
+	type="font/ttf"
 	crossorigin
 />
 

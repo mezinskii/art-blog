@@ -4,11 +4,11 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { useTranslations, type UiType } from "../i18n/utils";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 
 type Props = CollectionEntry<"blog">["data"];
 
-const { title, description, lang } =
-  Astro.props;
+const { title, description, lang } = Astro.props;
 
 const t = useTranslations(lang as UiType);
 ---
@@ -21,8 +21,23 @@ const t = useTranslations(lang as UiType);
   <body>
     <Header title={t("site.title")} lang={lang} />
     <main>
-		<slot />
-	</main>
+      <slot />
+    </main>
     <Footer />
+    <script>
+      import { library, config, dom } from "@fortawesome/fontawesome-svg-core";
+      import { faGgCircle, faYandex, faMedium, faYoutube, faThreads, faFacebook, faXTwitter } from "@fortawesome/free-brands-svg-icons";
+
+      config.autoAddCss = false;
+
+      library.add(faGgCircle);
+      library.add(faYandex);
+      library.add(faMedium);
+      library.add(faYoutube);
+      library.add(faFacebook);
+      library.add(faXTwitter);
+      library.add(faThreads);
+      dom.watch();
+    </script>
   </body>
 </html>
