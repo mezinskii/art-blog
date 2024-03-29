@@ -24,12 +24,12 @@ export async function getStaticPaths() {
       sizes={`(max-width: 360px) 240px, (max-width: 720px) 540px, (max-width: 1600px) 720px, ${myImage.width}px`}
       alt="A description of my image."
     />
-    <h1 class="uppercase font-bold mb-8">{t("site.title")}</h1>
-    <p class="uppercase font-bold text-xl sm:text-2xl">
+    <h1 class="uppercase font-bold mb-8 text-4xl sm:text-6xl">{t("site.title")}</h1>
+    <p class="uppercase font-bold text-lg sm:text-2xl">
       {t("home.p1")}
     </p>
   </div>
-  <p class="text-2xl">
+  <p class="text-lg sm:text-2xl">
     {t("home.p2")}
   </p>
 </Layout>
