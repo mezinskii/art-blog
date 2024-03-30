@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
 import Layout from "./Layout.astro";
 import { Image } from "astro:assets";
+import { useTranslations } from "../i18n/utils";
 
 type Props = CollectionEntry<"blog">["data"];
 
@@ -16,10 +17,12 @@ const {
   author,
   avatar,
 } = Astro.props;
+
+const t = useTranslations()
 ---
 
 <Layout
-  title={title}
+  title={`${title} | ${t("nav.blog")}`}
   description={description}
   heroImage={heroImage}
   pubDate={pubDate}

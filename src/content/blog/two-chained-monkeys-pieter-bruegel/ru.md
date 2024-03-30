@@ -40,8 +40,6 @@ lang: 'ru'
 
 > Потому так говорит Владыка ГОСПОДЬ: „Ненавистны мне ваши повязки, которыми вы улавливаете души, словно птиц. Сорву их с ваших рук и отпущу те души, которые вы поймали, словно птиц!
 
-So, the birds symbolize the souls, while the monkeys represent those mired in foolishness and sin. This contrast between the two groups highlights the spiritual and moral aspects of the painting.
-
 Псалмах(5) можно найти:
 
 > Мы спаслись, как птица из силков птицелова: разорвана сеть — и мы спасены.
@@ -66,7 +64,7 @@ So, the birds symbolize the souls, while the monkeys represent those mired in fo
 
 Картина демонстрирует неизбежное сковывание цепями ограниченности нашего понимания реальности и Бога. Помещая свое имя под обезьян автор намекает что он также скован этими ограничениями. Всё что он может сделать, изобразить параллель между человеческой природой и символом спасения человеческой души. Трансцендентное не может быть изображено, мы может лишь найти границу между реальным и божественным.
 
-### Библиография:
+#### Библиография:
 
 1. E. Panofsky, “The Life and Art of Albrecht Dürer,” Princeton, NJ., 1955, p. 67.
 2. G. Williams, “Spiritual and Anabaptist Writers,” Philadelphia, 1957, p. 153, from Sebastian Franck’s letter to John Campanus, Strassburg, 1531.

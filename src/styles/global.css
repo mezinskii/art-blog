@@ -106,6 +106,9 @@ textarea {
 input {
 	font-size: 16px;
 }
+ol {
+	list-style: number;
+}
 table {
 	width: 100%;
 }

@@ -3,8 +3,11 @@ import { getBlogPosts } from "../../../content/config";
 import FormattedDate from "../../../components/FormattedDate.astro";
 import Layout from "../../../layouts/Layout.astro";
 import { Image } from "astro:assets";
+import { useTranslations } from "../../../i18n/utils";
 
 const { lang } = Astro.params;
+
+const t = useTranslations();
 
 const posts = (await getBlogPosts())
   ?.filter((blog) => {
@@ -17,11 +20,9 @@ export async function getStaticPaths() {
     return { params: { lang } };
   });
 }
-
-const page = Astro.props;
 ---
 
-<Layout title="Blog" description="Blog" lang={lang}>
+<Layout title={`${t("site.title")} | ${t("nav.blog")}`} description={t("nav.blog")} lang={lang}>
   <section>
     <ul>
       {
@@ -33,7 +34,7 @@ const page = Astro.props;
                 height={360}
                 src={post.data.heroImage || ""}
                 alt={post.data.title}
-                loading="lazy"
+                loading="eager"
                 itemprop="image"
               />
               <h4 class="title">{post.data.title}</h4>
