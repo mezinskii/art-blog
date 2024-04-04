@@ -4,7 +4,7 @@ description: 'В данной статье мы рассмотрим все ка
 pubDate: 'Jul 9, 2023'
 heroImage: '/images/lars-von-trier-all-pictures-melanholia/banner_ru.webp'
 author: 'Ян Мезинский'
-avatar: '/images/authors/ian.jpg'
+avatar: '/images/authors/ian-small.png'
 lang: 'ru'
 ---
 

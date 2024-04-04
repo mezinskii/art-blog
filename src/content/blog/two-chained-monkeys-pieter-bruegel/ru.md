@@ -4,7 +4,7 @@ description: 'Из всех работ Брейгеля “Две прикова
 pubDate: 'Sep 29, 2023'
 heroImage: '/images/two-chained-monkeys-pieter-bruegel/banner_ru.png'
 author: 'Ian Mezinskii'
-avatar: '/images/authors/ian.jpg'
+avatar: '/images/authors/ian-small.png'
 lang: 'ru'
 ---
 

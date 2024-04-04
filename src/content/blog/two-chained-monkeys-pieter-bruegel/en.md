@@ -4,7 +4,7 @@ description: 'Of all of Bruegel’s works, “Two Chained Monkeys” exhibits th
 pubDate: 'Sep 29, 2023'
 heroImage: '/images/two-chained-monkeys-pieter-bruegel/banner_en.webp'
 author: 'Ian Mezinskii'
-avatar: '/images/authors/ian.jpg'
+avatar: '/images/authors/ian-small.png'
 lang: 'en'
 ---
 

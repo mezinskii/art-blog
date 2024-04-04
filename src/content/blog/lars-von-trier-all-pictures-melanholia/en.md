@@ -4,7 +4,7 @@ description: 'In this article we will look at all the paintings present in Lars 
 pubDate: 'Jul 9, 2023'
 heroImage: '/images/lars-von-trier-all-pictures-melanholia/banner.webp'
 author: 'Ian Mezinskii'
-avatar: '/images/authors/ian.jpg'
+avatar: '/images/authors/ian-small.png'
 lang: 'en'
 ---
 
