@@ -1,14 +1,17 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { useTranslations, type UiType } from "../i18n/utils";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 
-type Props = CollectionEntry<"blog">["data"];
+type Props = {
+  title: string;
+  description: string;
+  lang?: string;
+};
 
-const { title, description, lang } = Astro.props;
+const { title, description, lang } = Astro.props as Props;
 
 const t = useTranslations(lang as UiType);
 ---
@@ -26,7 +29,7 @@ const t = useTranslations(lang as UiType);
     <Footer />
     <script>
       import { library, config, dom } from "@fortawesome/fontawesome-svg-core";
-      import { faGgCircle, faYandex, faMedium, faYoutube, faThreads, faFacebook, faXTwitter } from "@fortawesome/free-brands-svg-icons";
+      import { faGgCircle, faYandex, faMedium, faYoutube, faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
 
       config.autoAddCss = false;
 
@@ -35,8 +38,7 @@ const t = useTranslations(lang as UiType);
       library.add(faMedium);
       library.add(faYoutube);
       library.add(faFacebook);
-      library.add(faXTwitter);
-      library.add(faThreads);
+      library.add(faInstagram);
       dom.watch();
     </script>
   </body>
