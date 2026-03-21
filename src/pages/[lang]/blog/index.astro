@@ -13,7 +13,7 @@ const posts = (await getBlogPosts())
   ?.filter((blog) => {
     return blog?.data?.lang === lang;
   })
-  .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 export async function getStaticPaths() {
   return ["en", "ru"].map((lang) => {
@@ -22,7 +22,11 @@ export async function getStaticPaths() {
 }
 ---
 
-<Layout title={`${t("site.title")} | ${t("nav.blog")}`} description={t("nav.blog")} lang={lang}>
+<Layout
+  title={`${t("site.title")} | ${t("nav.blog")}`}
+  description={t("nav.blog")}
+  lang={lang}
+>
   <section>
     <ul>
       {
@@ -98,10 +102,10 @@ export async function getStaticPaths() {
   }
   ul li a:hover h4,
   ul li a:hover .date {
-     @apply text-gray-light ease-out;
+    @apply text-gray-light ease-out;
   }
   ul a:hover img {
-    @apply drop-shadow-2xl text-gray-light ease-out; 
+    @apply drop-shadow-2xl text-gray-light ease-out;
   }
   @media (max-width: 720px) {
     ul {
