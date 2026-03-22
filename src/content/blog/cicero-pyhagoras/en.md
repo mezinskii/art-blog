@@ -8,8 +8,6 @@ avatar: '/images/authors/ian-small.png'
 lang: 'en'
 ---
 
-# Pythagoras and the Pythagorean Tradition in Cicero’s Works
-
 ## Introduction
 
 The figure of Pythagoras occupies an important place in the philosophical treatises of Marcus Tullius Cicero. Although the Roman philosopher does not devote a separate work to him, numerous references in various writings allow us to reconstruct the image of Pythagoreanism in the Roman intellectual tradition of the 1st century BCE.
