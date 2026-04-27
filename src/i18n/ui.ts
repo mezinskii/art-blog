@@ -46,7 +46,7 @@ export const ui = {
     "blog.all": "Все",
 
     "projects.eyebrow.workshop": "Мастерская",
-    "projects.eyebrow.catalogue": "Каталог малых инструментов",
+    "projects.eyebrow.catalogue": "Каталог инструментов",
     "projects.title": "Проекты",
     "projects.subtitle": "Приложения для исследования античности.",
     "projects.items": "предметов",
