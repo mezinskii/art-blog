@@ -1,4 +1,37 @@
 ---
-import { DEFAULT_LANG } from "../i18n/utils";
-return Astro.redirect(`/${DEFAULT_LANG}`);
+// Static landing that picks the locale on the client based on browser
+// language (or the user's previously-chosen one). For SEO / no-JS clients,
+// the meta refresh sends them to /en.
 ---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Ian Mezinskii</title>
+    <meta http-equiv="refresh" content="0; url=/en" />
+    <link rel="alternate" hreflang="en" href="/en" />
+    <link rel="alternate" hreflang="ru" href="/ru" />
+    <link rel="alternate" hreflang="x-default" href="/en" />
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("lang");
+          var supported = ["ru", "en"];
+          var pick;
+          if (stored && supported.indexOf(stored) >= 0) {
+            pick = stored;
+          } else {
+            var nav = (navigator.language || navigator.userLanguage || "en").toLowerCase();
+            pick = nav.indexOf("ru") === 0 ? "ru" : "en";
+          }
+          location.replace("/" + pick);
+        } catch (e) {
+          location.replace("/en");
+        }
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>

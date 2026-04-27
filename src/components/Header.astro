@@ -37,11 +37,21 @@ const enHref = getLocalizedPathname(Astro.url.pathname, "en");
     </div>
 
     <div class="theme-toggle lang">
-      <a class:list={["nav-link", { active: lang === "en" }]} href={enHref} style="border:0;padding:0 10px;height:26px;display:inline-flex;align-items:center;border-radius:999px;">EN</a>
-      <a class:list={["nav-link", { active: lang === "ru" }]} href={ruHref} style="border:0;padding:0 10px;height:26px;display:inline-flex;align-items:center;border-radius:999px;">RU</a>
+      <a class:list={["nav-link", { active: lang === "en" }]} data-lang-pick="en" href={enHref} style="border:0;padding:0 10px;height:26px;display:inline-flex;align-items:center;border-radius:999px;">EN</a>
+      <a class:list={["nav-link", { active: lang === "ru" }]} data-lang-pick="ru" href={ruHref} style="border:0;padding:0 10px;height:26px;display:inline-flex;align-items:center;border-radius:999px;">RU</a>
     </div>
   </nav>
 </header>
+
+<script is:inline>
+  (function () {
+    document.querySelectorAll("[data-lang-pick]").forEach((el) => {
+      el.addEventListener("click", () => {
+        try { localStorage.setItem("lang", el.getAttribute("data-lang-pick")); } catch (e) {}
+      });
+    });
+  })();
+</script>
 
 <script is:inline>
   (function () {
