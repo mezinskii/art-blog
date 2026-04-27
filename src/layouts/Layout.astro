@@ -1,47 +1,40 @@
 ---
-import Analytics from '@vercel/analytics/astro'
+import Analytics from "@vercel/analytics/astro";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { useTranslations, type UiType } from "../i18n/utils";
-import "@fortawesome/fontawesome-svg-core/styles.css";
 
 type Props = {
   title: string;
   description: string;
-  lang?: string;
+  lang?: UiType;
+  active?: string;
 };
 
-const { title, description, lang } = Astro.props as Props;
-
-const t = useTranslations(lang as UiType);
+const { title, description, lang = "ru", active } = Astro.props as Props;
+const t = useTranslations(lang);
 ---
 
 <!doctype html>
 <html lang={lang}>
   <head>
     <BaseHead lang={lang} title={title} description={description} />
+    <script is:inline>
+      (function () {
+        try {
+          const stored = localStorage.getItem("theme");
+          if (stored === "night") document.documentElement.setAttribute("data-theme", "night");
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
-    <Header title={t("site.title")} lang={lang} />
+    <Header lang={lang} active={active} />
     <main>
       <slot />
     </main>
-    <Footer />
+    <Footer lang={lang} />
     <Analytics />
-    <script>
-      import { library, config, dom } from "@fortawesome/fontawesome-svg-core";
-      import { faGgCircle, faYandex, faMedium, faYoutube, faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
-
-      config.autoAddCss = false;
-
-      library.add(faGgCircle);
-      library.add(faYandex);
-      library.add(faMedium);
-      library.add(faYoutube);
-      library.add(faFacebook);
-      library.add(faInstagram);
-      dom.watch();
-    </script>
   </body>
 </html>

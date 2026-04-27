@@ -2,10 +2,10 @@
 import type { CollectionEntry } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
 import Layout from "./Layout.astro";
-import { Image } from "astro:assets";
-import { useTranslations } from "../i18n/utils";
+import { useTranslations, type UiType } from "../i18n/utils";
+import { postMinutes, postSection, postTag } from "../content/config";
 
-type Props = CollectionEntry<"blog">["data"];
+type Props = CollectionEntry<"blog">["data"] & { lang?: string };
 
 const {
   title,
@@ -18,49 +18,198 @@ const {
   avatar,
 } = Astro.props;
 
-const t = useTranslations()
+const uiLang = (lang === "en" ? "en" : "ru") as UiType;
+const t = useTranslations(uiLang);
+
+// Use a faux post object for postSection / postTag / postMinutes helpers
+const fauxPost = { data: Astro.props } as any;
+const section = postSection(fauxPost);
+const tag = postTag(fauxPost);
+const minutes = postMinutes(fauxPost);
 ---
 
 <Layout
   title={`${title} | ${t("nav.blog")}`}
   description={description}
-  heroImage={heroImage}
-  pubDate={pubDate}
-  updatedDate={updatedDate}
-  lang={lang}
+  lang={uiLang}
+  active="blog"
 >
-  <article>
-    <div class="prose">
-      <div class="mb-8">
-        <h1 class="font-bold m-0 text-3xl sm:text-4xl">{title}</h1>
+  <article class="article">
+    <section class="title-plate">
+      <aside class="meta-rail">
+        <div class="mono dim">№ 001</div>
+        <div class="serif numeral-big">V</div>
+        <div class="mono section-tag">{section}</div>
+        <div class="mono dim2"><FormattedDate date={pubDate} lang={lang} /></div>
+        <div class="mono dim2">{minutes} {t("blog.minRead")}</div>
+        {updatedDate && (
+          <div class="mono dim2">
+            {uiLang === "ru" ? "Обновлено" : "Updated"}: <FormattedDate date={updatedDate} lang={lang} />
+          </div>
+        )}
+      </aside>
+
+      <div class="title-main">
+        <div class="mono dim">{t("blog.essay")}</div>
+        <h1 class="serif main-title">{title}</h1>
+        {description && <p class="serif main-desc">{description}</p>}
+
+        {(author || avatar) && (
+          <div class="byline">
+            {avatar && <img src={avatar} alt={author ?? ""} class="avatar" />}
+            <div>
+              {author && <div class="serif by-name">{author}</div>}
+              <div class="mono by-role">{t("blog.author")}</div>
+            </div>
+          </div>
+        )}
       </div>
-      <hr />
-      <div class="flex items-center px-1 py-2">
-        <div>
-          <Image class="rounded-full" width="44" height="44" loading="lazy" src={avatar || ""} alt={author || ""} />
+    </section>
+
+    {heroImage && (
+      <section class="hero-image">
+        <img src={heroImage} alt={title} loading="lazy" />
+      </section>
+    )}
+
+    <section class="body">
+      <aside class="left-rail">
+        <div class="rail-sticky">
+          <div class="mono rail-eye">{tag}</div>
+          <div class="serif rail-title">{title}</div>
         </div>
-        <div class="ml-2 flex flex-col">
-            <span class="text-base">{author}</span>
-            <FormattedDate lang={lang} date={pubDate} />
-            {
-              updatedDate && (
-                <div class="last-updated-on">
-                  Last updated on{" "}
-                  <FormattedDate lang={lang} date={updatedDate} />
-                </div>
-              )
-            }
+      </aside>
+
+      <div class="prose-article">
+        <slot />
+      </div>
+
+      <aside class="right-rail">
+        <div class="rail-sticky">
+          <div class="mono rail-eye">{uiLang === "ru" ? "На полях" : "Marginalia"}</div>
+          <div class="serif rail-marg">
+            {description}
+          </div>
+          <div class="cited">
+            <div class="mono cited-eye">{uiLang === "ru" ? "Цитируемые" : "Cited works"}</div>
+            <ul>
+              <li class="serif italic">{section}</li>
+            </ul>
+          </div>
         </div>
-      </div>
-      <hr />
-      <div class="mb-10 mt-10">
-        {
-          heroImage && (
-            <Image width={1020} height={510} src={heroImage} loading="lazy" alt={title} />
-          )
-        }
-      </div>
-      <slot />
-    </div>
+      </aside>
+    </section>
   </article>
 </Layout>
+
+<style>
+  main { display: block; }
+
+  .title-plate {
+    padding: 60px 40px 48px;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .meta-rail .mono { font-size: 11px; letter-spacing: 0.22em; color: var(--fg-3); }
+  .meta-rail .dim { margin-bottom: 14px; }
+  .meta-rail .dim2 { color: var(--fg-4); margin-top: 6px; letter-spacing: 0.18em; }
+  .numeral-big {
+    font-size: 80px; font-style: italic; font-weight: 400;
+    color: var(--accent); line-height: 0.8;
+  }
+  .section-tag {
+    margin-top: 18px; text-transform: uppercase;
+  }
+  .title-main .dim {
+    font-size: 11px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--fg-3);
+    margin-bottom: 14px;
+  }
+  .main-title {
+    margin: 0; font-size: 72px; font-weight: 500;
+    letter-spacing: -0.025em; line-height: 0.95; color: var(--fg);
+  }
+  .main-desc {
+    margin-top: 28px; font-size: 22px; font-style: italic;
+    color: var(--fg-2); line-height: 1.4; max-width: 40ch;
+  }
+  .byline {
+    margin-top: 32px;
+    display: flex; align-items: center; gap: 14px;
+    padding-top: 18px; border-top: 1px solid var(--rule);
+  }
+  .avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 1px solid var(--fg-3);
+    object-fit: cover;
+  }
+  .by-name {
+    font-size: 16px; font-weight: 500;
+    font-family: var(--font-display);
+  }
+  .by-role {
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--fg-3);
+  }
+
+  .hero-image {
+    padding: 0 40px;
+    margin-top: 40px;
+  }
+  .hero-image img {
+    width: 100%; max-height: 520px;
+    object-fit: cover;
+    border: 1px solid var(--rule);
+  }
+
+  .body {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 680px) 1fr;
+    gap: 40px;
+    padding: 60px 40px 80px;
+  }
+  .left-rail, .right-rail { font-size: 14px; }
+  .rail-sticky { position: sticky; top: 20px; }
+  .rail-eye {
+    font-size: 10px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--fg-3);
+    margin-bottom: 14px;
+  }
+  .rail-title {
+    font-size: 18px; font-style: italic;
+    color: var(--fg-2); line-height: 1.3;
+  }
+  .rail-marg {
+    font-size: 14px; line-height: 1.5;
+    font-style: italic; color: var(--fg-3);
+    border-left: 1px solid var(--rule);
+    padding-left: 14px;
+  }
+  .cited {
+    margin-top: 28px; padding: 14px;
+    background: var(--bg-2); border: 1px solid var(--rule);
+  }
+  .cited-eye {
+    font-size: 10px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--accent);
+  }
+  .cited ul {
+    list-style: none; padding: 0; margin: 10px 0 0;
+    font-family: var(--font-display); font-size: 14px;
+    line-height: 1.6;
+  }
+  .cited .italic { font-style: italic; }
+
+  @media (max-width: 1100px) {
+    .title-plate { grid-template-columns: 1fr; gap: 24px; padding: 48px 24px 32px; }
+    .meta-rail { display: flex; flex-wrap: wrap; gap: 16px; align-items: baseline; }
+    .meta-rail .dim, .meta-rail .dim2 { margin-bottom: 0; margin-top: 0; }
+    .meta-rail .numeral-big { font-size: 56px; margin-right: 12px; }
+    .meta-rail .section-tag { margin-top: 0; }
+    .main-title { font-size: 48px; }
+    .body { grid-template-columns: 1fr; padding: 40px 24px 64px; }
+    .left-rail, .right-rail { display: none; }
+  }
+</style>

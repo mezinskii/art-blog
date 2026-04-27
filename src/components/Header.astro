@@ -1,103 +1,70 @@
 ---
-import HeaderLink from "./HeaderLink.astro";
-import { SITE_TITLE_EN, SITE_TITLE_RU } from "../consts";
-import LangLink from "./LangLink.astro";
-import { useTranslations } from "../i18n/utils";
+import { getLocalizedPathname, useTranslations, type UiType } from "../i18n/utils";
 
-const { lang } = Astro.props;
+const { lang, active } = Astro.props as { lang: UiType; active?: string };
+const t = useTranslations(lang);
 
 const homeSlug = `/${lang}`;
 const blogSlug = `/${lang}/blog`;
+const projectsSlug = `/${lang}/projects`;
 const aboutSlug = `/${lang}/about`;
-const TITLE = lang === "ru" ? SITE_TITLE_RU : SITE_TITLE_EN;
-const t = useTranslations(lang);
+
+const items = [
+  { key: "home", href: homeSlug, label: t("nav.home") },
+  { key: "blog", href: blogSlug, label: t("nav.blog") },
+  { key: "projects", href: projectsSlug, label: t("nav.projects") },
+  { key: "about", href: aboutSlug, label: t("nav.about") },
+];
+
+const ruHref = getLocalizedPathname(Astro.url.pathname, "ru");
+const enHref = getLocalizedPathname(Astro.url.pathname, "en");
 ---
 
-<header>
-  <nav class="h-full">
-    <a class="logo flex items-center w-16 sm:w-56" href="/">
-      <i
-        class="transition duration-300 ease-in-out fa-brands fa-gg-circle fa-2xl text-gray-light"
-      ></i>
-      <span
-        class="transition duration-300 ease-in-out text-gray-light ml-3 hidden sm:block"
-        >{TITLE}</span
-      ></a
-    >
-    <div class="h-full">
-      <HeaderLink href={homeSlug}>{t("nav.home")}</HeaderLink>
-      <HeaderLink href={blogSlug}>{t("nav.blog")}</HeaderLink>
-      <HeaderLink href={aboutSlug}>{t("nav.about")}</HeaderLink>
+<header class="site-header">
+  <div class="brand">
+    <a href={homeSlug}>{t("site.title")}</a>
+    <span class="yr">MMXXVI</span>
+  </div>
+
+  <nav class="primary">
+    {items.map((it) => (
+      <a class:list={["nav-link", { active: active === it.key }]} href={it.href}>{it.label}</a>
+    ))}
+
+    <div class="theme-toggle" data-theme-toggle title="Day / Night">
+      <button type="button" data-theme-set="day" aria-label="Day">☀</button>
+      <button type="button" data-theme-set="night" aria-label="Night">☾</button>
     </div>
-    <div class="flex justify-end w-16 sm:w-56">
-      <LangLink language="ru" isActive={lang == "ru"} />
-      <LangLink language="en" isActive={lang == "en"} />
+
+    <div class="theme-toggle lang">
+      <a class:list={["nav-link", { active: lang === "en" }]} href={enHref} style="border:0;padding:0 10px;height:26px;display:inline-flex;align-items:center;border-radius:999px;">EN</a>
+      <a class:list={["nav-link", { active: lang === "ru" }]} href={ruHref} style="border:0;padding:0 10px;height:26px;display:inline-flex;align-items:center;border-radius:999px;">RU</a>
     </div>
   </nav>
 </header>
-<style>
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
 
-  .logo:hover span {
-    @apply text-primary;
-  }
-  .logo:hover svg {
-    @apply text-primary;
-  }
-  header {
-    margin: 0;
-    padding: 0 1em;
-    background: white;
-    box-shadow: 0 2px 8px rgba(var(--black), 5%);
-  }
-  h2 {
-    margin: 0;
-    font-size: 1em;
-  }
+<script is:inline>
+  (function () {
+    const root = document.documentElement;
+    const stored = localStorage.getItem("theme") || "day";
+    if (stored === "night") root.setAttribute("data-theme", "night");
 
-  h2 a,
-  h2 a.active {
-    text-decoration: none;
-  }
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  nav a {
-    @apply border-t-4 no-underline text-dark px-4 py-5 border-white h-full;
-  }
-  nav a.active {
-    @apply border-t-danger decoration-0;
-  }
-  .social-links,
-  .social-links a {
-    display: flex;
-  }
-  @media (max-width: 720px) {
-    .social-links {
-      display: none;
+    function syncButtons() {
+      const current = root.getAttribute("data-theme") === "night" ? "night" : "day";
+      document.querySelectorAll("[data-theme-set]").forEach((btn) => {
+        btn.classList.toggle("active", btn.getAttribute("data-theme-set") === current);
+      });
     }
-  }
-  @media (max-width: 640px) {
-    header {
-      padding: 0 0.5em;
-    }
-    nav a {
-      @apply px-2 py-3;
-    }
-  }
-  @media (max-width: 360px) {
-    .logo svg {
-      @apply invisible hidden w-0 p-0 m-0;
-    }
-    .logo {
-      @apply w-0 p-0 m-0;
-    }
-    nav .logo {
-      @apply w-0 p-0 m-0;
-    }
-  }
-</style>
+    syncButtons();
+
+    document.querySelectorAll("[data-theme-set]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const next = btn.getAttribute("data-theme-set");
+        if (next === "night") root.setAttribute("data-theme", "night");
+        else root.removeAttribute("data-theme");
+        localStorage.setItem("theme", next);
+        syncButtons();
+      });
+    });
+  })();
+</script>

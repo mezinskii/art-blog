@@ -1,35 +1,448 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-
-import { getLangFromUrl, useTranslations } from "../../i18n/utils";
-import { Image } from "astro:assets";
-import myImage from "../../../public/images/authors/ian.jpg";
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
+import { getLangFromUrl, useTranslations, type UiType } from "../../i18n/utils";
+import {
+  getBlogPosts,
+  postMinutes,
+  postSection,
+  postTag,
+} from "../../content/config";
+import { getQuotesByLang } from "../../lib/sanity/quotes";
+import { projects } from "../../data/projects";
+import FormattedDate from "../../components/FormattedDate.astro";
 
 export async function getStaticPaths() {
-  return ["en", "ru"].map((lang) => {
-    return { params: { lang } };
-  });
+  return ["en", "ru"].map((lang) => ({ params: { lang } }));
 }
+
+const lang = getLangFromUrl(Astro.url) as UiType;
+const t = useTranslations(lang);
+
+const allPosts = (await getBlogPosts())
+  .filter((p) => p.data.lang === lang)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const featured = allPosts.slice(0, 3);
+
+const quotes = await getQuotesByLang();
+const langQuotes = (lang === "ru" ? quotes.ru : quotes.en).slice(0, 30);
 ---
 
-<Layout title={t("site.title")} description={t("site.description")} lang={lang}>
-  <div class="flex items-center flex-col mb-8">
-    <Image
-      class="rounded-full w-32 h-auto block mb-4"
-      src={myImage}
-      widths={[240, 540, 720, myImage.width]}
-      sizes={`(max-width: 360px) 240px, (max-width: 720px) 540px, (max-width: 1600px) 720px, ${myImage.width}px`}
-      alt="A description of my image."
-    />
-    <h1 class="uppercase font-bold mb-8 text-4xl sm:text-6xl">{t("site.title")}</h1>
-    <p class="uppercase font-bold text-lg sm:text-2xl">
-      {t("home.p1")}
-    </p>
-  </div>
-  <p class="text-lg sm:text-2xl">
-    {t("home.p2")}
-  </p>
+<Layout
+  title={t("site.title")}
+  description={t("site.description")}
+  lang={lang}
+  active="home"
+>
+  <section class="hero">
+    <div class="folio">FOLIO · I</div>
+
+    <div class="hero-main">
+      <div class="hero-eyebrow">
+        <span style="color: var(--accent)">❦</span>&nbsp;&nbsp;{t("home.eyebrow")}&nbsp;&nbsp;·&nbsp;&nbsp;{t("home.est")} 2023
+      </div>
+      <h1 class="serif hero-title">
+        Ian
+        <br />
+        <em>Mezinskii</em>
+      </h1>
+      <p class="serif hero-intro">{t("home.intro")}</p>
+
+      <div class="hero-cta">
+        <a class="btn-solid" href={`/${lang}/blog`}>{t("home.cta.read")} →</a>
+        <a class="btn-outline" href={`/${lang}/projects`}>{t("home.cta.projects")}</a>
+      </div>
+    </div>
+
+    <aside class="quote-card">
+      <div class="quote-card-head">
+        <span>{t("home.quote.title")}</span>
+        <span style="color: var(--fg-4)">❦</span>
+      </div>
+      <div class="quote-card-body" data-quote-rotator>
+        {langQuotes.map((q, i) => (
+          <div class:list={["quote-item", { active: i === 0 }]} data-quote-item>
+            <div class="serif quote-text">
+              <span class="quote-mark">“</span>{q.text}
+            </div>
+            <div class="mono quote-meta">
+              — {q.authorName}{q.workTitle ? `, ${q.workTitle}` : ""}{q.ref ? ` · ${q.ref}` : ""}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="quote-band"></div>
+    </aside>
+  </section>
+
+  <section class="block">
+    <div class="section-heading">
+      <div class="sh-left">
+        <span class="numeral">II</span>
+        <div>
+          <div class="eyebrow">{t("home.section.projects.eyebrow")}</div>
+          <h2 class="serif">{t("home.section.projects")}</h2>
+          <div class="serif sh-sub">{t("home.section.projects.subtitle")}</div>
+        </div>
+      </div>
+      <a class="action-link" href={`/${lang}/projects`}>{t("home.section.projects.action")}</a>
+    </div>
+
+    <div class="projects-strip">
+      {projects.map((p) => (
+        <a class="proj-card" href={p.url || `/${lang}/projects#${p.id}`}>
+          <div class="proj-meta">
+            <span class="mono">№ {p.num} · {(lang === "ru" ? p.tag.ru : p.tag.en).toUpperCase()}</span>
+            <span class="mono dim">{p.year}</span>
+          </div>
+          <div class="proj-mock" style={`--proj-accent: ${p.accent};`}>
+            <div class="proj-tile">
+              <span>{p.glyph}</span>
+            </div>
+            <div class="hatch corner-tl"></div>
+            <div class="hatch corner-br"></div>
+          </div>
+          <h3 class="serif proj-title">{lang === "ru" ? p.title.ru : p.title.en}</h3>
+          <p class="proj-desc">{lang === "ru" ? p.desc.ru : p.desc.en}</p>
+          <div class="proj-cta mono">{t("projects.cta.open")} <span>→</span></div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="section-heading">
+      <div class="sh-left">
+        <span class="numeral">III</span>
+        <div>
+          <div class="eyebrow">{t("home.section.latest.eyebrow")}</div>
+          <h2 class="serif">{t("home.section.latest")}</h2>
+          <div class="serif sh-sub">{t("home.section.latest.subtitle")}</div>
+        </div>
+      </div>
+      <a class="action-link" href={`/${lang}/blog`}>{t("home.section.latest.action")}</a>
+    </div>
+
+    <div class="post-rows">
+      {featured.map((p, i) => (
+        <a class="post-row" href={`/${lang}/blog/${p.blog_slug}`}>
+          <span class="mono pr-num">№ {String(i + 1).padStart(3, "0")}</span>
+          <div>
+            <div class="mono pr-eyebrow">{postSection(p)} · {postTag(p)}</div>
+            <h3 class="serif pr-title">{p.data.title}</h3>
+          </div>
+          <span class="serif pr-date"><FormattedDate date={p.data.pubDate} lang={p.data.lang} /></span>
+          <span class="mono pr-min">{postMinutes(p)} {t("blog.min").toUpperCase()}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- <details class="openme">
+    <summary>
+      <span class="om-left">
+        <span class="numeral lg">IV</span>
+        <span>
+          <div class="eyebrow">{t("home.openme.eyebrow")}</div>
+          <span class="serif om-cta" data-openme-closed>{t("home.openme.cta")}</span>
+          <span class="serif om-cta" data-openme-open>{t("home.openme.cta.open")}</span>
+        </span>
+      </span>
+      <span class="openme-icon">▶</span>
+    </summary>
+    <div class="om-body">
+      <p class="dropcap serif om-text">{t("home.openme.body")}</p>
+      <div>
+        <div class="eyebrow" style="margin-bottom: 14px;">{t("home.openme.reading")}</div>
+        <ul class="reading-list">
+          <li><span class="serif italic">De Officiis</span><span class="mono dim">CICERO</span></li>
+          <li><span class="serif italic">Gravity and Grace</span><span class="mono dim">WEIL</span></li>
+          <li><span class="serif italic">The Discourses</span><span class="mono dim">EPICTETUS</span></li>
+        </ul>
+      </div>
+    </div>
+  </details> -->
 </Layout>
+
+<script is:inline>
+  (function () {
+    const rotators = document.querySelectorAll("[data-quote-rotator]");
+    rotators.forEach((rot) => {
+      const items = Array.from(rot.querySelectorAll("[data-quote-item]"));
+      if (items.length < 2) return;
+
+      // Random starting quote per page load.
+      let idx = Math.floor(Math.random() * items.length);
+      items.forEach((it) => it.classList.remove("active"));
+      items[idx].classList.add("active");
+
+      const pickNext = (cur) => {
+        if (items.length < 3) return (cur + 1) % items.length;
+        // Random next, avoiding the current one and the immediately previous
+        // one so we never get the same quote twice in a row.
+        let n;
+        do {
+          n = Math.floor(Math.random() * items.length);
+        } while (n === cur);
+        return n;
+      };
+
+      setInterval(() => {
+        const cur = items[idx];
+        cur.classList.add("fading");
+        setTimeout(() => {
+          cur.classList.remove("active", "fading");
+          idx = pickNext(idx);
+          items[idx].classList.add("active");
+        }, 600);
+      }, 6500);
+    });
+  })();
+</script>
+
+<style>
+  main { display: block; }
+
+  .hero {
+    padding: 80px 40px 100px;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 80px;
+    align-items: start;
+    position: relative;
+    border-bottom: 1px solid var(--rule);
+  }
+  .folio {
+    position: absolute; left: 18px; top: 100px;
+    font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: 0.2em; color: var(--fg-4);
+    writing-mode: vertical-rl; transform: rotate(180deg);
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 0.22em;
+    color: var(--fg-3); text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .hero-title {
+    margin: 0; font-weight: 500;
+    font-size: 110px; line-height: 0.92;
+    letter-spacing: -0.025em; color: var(--fg);
+  }
+  .hero-title em { font-style: italic; color: var(--accent); font-weight: 500; }
+  .hero-intro {
+    margin: 28px 0 0; font-size: 24px; line-height: 1.4;
+    color: var(--fg-2); max-width: 32ch;
+  }
+  .hero-cta {
+    display: flex; gap: 28px; margin-top: 44px; align-items: center;
+  }
+
+  .quote-card {
+    background: var(--bg-2);
+    border: 1px solid var(--rule);
+    padding: 28px;
+    position: relative;
+  }
+  .quote-card-head {
+    font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--fg-3);
+    margin-bottom: 18px;
+    display: flex; justify-content: space-between;
+  }
+  .quote-card-body { min-height: 220px; position: relative; }
+  .quote-text {
+    font-size: 28px; line-height: 1.25;
+    font-style: italic; color: var(--fg);
+    letter-spacing: -0.01em;
+  }
+  .quote-mark {
+    font-size: 56px; color: var(--accent);
+    line-height: 0; vertical-align: -0.18em; margin-right: 4px;
+    font-family: var(--font-display); font-weight: 600;
+  }
+  .quote-meta {
+    margin-top: 18px;
+    font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--fg-3);
+  }
+  .quote-band {
+    position: absolute; bottom: -1px; left: -1px; right: -1px; height: 4px;
+    background: repeating-linear-gradient(90deg, var(--accent) 0 8px, transparent 8px 14px);
+  }
+
+  /* Section headings */
+  .block { padding: 64px 40px 32px; border-bottom: 1px solid var(--rule); }
+  .section-heading {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 24px; border-bottom: 2px solid var(--fg); padding-bottom: 18px;
+  }
+  .sh-left { display: flex; gap: 24px; align-items: flex-end; }
+  .numeral {
+    font-family: var(--font-display); font-size: 64px;
+    font-style: italic; font-weight: 400;
+    color: var(--accent); line-height: 0.8;
+  }
+  .numeral.lg { font-size: 64px; }
+  .section-heading .eyebrow { margin-bottom: 6px; }
+  .section-heading h2 {
+    margin: 0; font-size: 44px; font-weight: 500;
+    letter-spacing: -0.02em; line-height: 1; color: var(--fg);
+  }
+  .sh-sub {
+    margin-top: 6px; font-size: 18px;
+    font-style: italic; color: var(--fg-2);
+  }
+  .action-link {
+    background: transparent; border: 0;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--fg); padding-bottom: 8px;
+  }
+
+  /* Projects strip */
+  .projects-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    margin-top: 36px;
+  }
+  .proj-card {
+    border-top: 1px solid var(--fg);
+    padding-top: 20px;
+    display: flex; flex-direction: column; gap: 14px;
+    color: var(--fg);
+  }
+  .proj-meta {
+    display: flex; justify-content: space-between;
+    align-items: baseline;
+    font-size: 11px; letter-spacing: 0.18em;
+    color: var(--fg-3);
+  }
+  .proj-meta .dim { color: var(--fg-4); }
+  .proj-mock {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background: var(--bg-2);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .proj-mock::before {
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0; height: 60%;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--proj-accent) 16%, transparent) 0%, transparent 100%);
+  }
+  .proj-tile {
+    position: absolute; left: 50%; top: 54%;
+    transform: translate(-50%, -50%);
+    width: 34%; aspect-ratio: 9 / 18;
+    background: var(--bg);
+    border: 1.5px solid var(--fg);
+    border-radius: 14px;
+    padding: 5px;
+    box-shadow: 0 6px 0 var(--fg);
+    display: flex; flex-direction: column;
+  }
+  .proj-tile span {
+    flex: 1;
+    background: var(--proj-accent);
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    color: #f4ede0;
+    font-family: var(--font-display);
+    font-weight: 600; font-style: italic; font-size: 16px;
+    letter-spacing: 0.04em;
+    background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 8px);
+  }
+  .proj-mock .corner-tl { position: absolute; left: 14px; top: 14px; width: 36px; height: 4px; }
+  .proj-mock .corner-br { position: absolute; right: 14px; bottom: 14px; width: 36px; height: 4px; }
+  .proj-title {
+    margin: 0; font-size: 22px; font-weight: 500;
+    letter-spacing: -0.01em; line-height: 1.1;
+    color: var(--fg);
+  }
+  .proj-desc {
+    margin: 0; font-size: 13.5px; line-height: 1.55;
+    color: var(--fg-2); max-width: 38ch;
+  }
+  .proj-cta {
+    margin-top: auto;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); padding-top: 8px;
+    display: flex; gap: 8px; align-items: center;
+  }
+
+  /* Post rows */
+  .post-rows { margin-top: 28px; }
+  .post-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 200px 80px;
+    gap: 28px;
+    align-items: baseline;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--fg);
+  }
+  .post-row:hover { background: var(--bg-2); }
+  .pr-num { font-size: 11px; color: var(--fg-4); letter-spacing: 0.15em; }
+  .pr-eyebrow {
+    font-size: 10px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .pr-title {
+    margin: 0; font-size: 30px; font-weight: 500;
+    line-height: 1.1; letter-spacing: -0.015em; color: var(--fg);
+  }
+  .pr-date { font-style: italic; font-size: 16px; color: var(--fg-3); }
+  .pr-min {
+    font-size: 11px; color: var(--fg-3);
+    text-align: right; letter-spacing: 0.1em;
+  }
+
+  /* Open me drawer */
+  .om-left { display: flex; align-items: baseline; gap: 24px; }
+  .om-cta {
+    font-size: 44px; font-weight: 500;
+    letter-spacing: -0.02em; color: var(--fg); display: block;
+  }
+  details.openme [data-openme-open] { display: none; }
+  details.openme[open] [data-openme-closed] { display: none; }
+  details.openme[open] [data-openme-open] { display: block; }
+  .om-body {
+    padding: 0 40px 60px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+  }
+  .om-text {
+    font-size: 22px; line-height: 1.5; color: var(--fg-2); font-weight: 400;
+  }
+  .reading-list {
+    list-style: none; padding: 0; margin: 0;
+    font-family: var(--font-display); font-size: 19px;
+  }
+  .reading-list li {
+    display: flex; justify-content: space-between;
+    padding: 10px 0; border-bottom: 1px solid var(--rule);
+  }
+  .reading-list .italic { font-style: italic; }
+  .reading-list .dim { font-size: 11px; color: var(--fg-3); }
+
+  @media (max-width: 1100px) {
+    .hero { grid-template-columns: 1fr; gap: 40px; padding: 48px 24px 64px; }
+    .folio { display: none; }
+    .hero-title { font-size: 80px; }
+    .projects-strip { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 700px) {
+    .block { padding: 40px 20px 24px; }
+    .projects-strip { grid-template-columns: 1fr; }
+    .post-row { grid-template-columns: 1fr; gap: 6px; }
+    .pr-title { font-size: 22px; }
+    .om-body { grid-template-columns: 1fr; gap: 32px; padding: 0 20px 40px; }
+    .hero-title { font-size: 64px; }
+    .om-cta { font-size: 28px; }
+    details.openme summary { padding: 24px 20px; }
+  }
+</style>

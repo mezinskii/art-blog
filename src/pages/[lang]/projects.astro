@@ -1,0 +1,280 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { useTranslations, type UiType } from "../../i18n/utils";
+import { projects, workshop } from "../../data/projects";
+
+export async function getStaticPaths() {
+  return ["en", "ru"].map((lang) => ({ params: { lang } }));
+}
+
+const lang = (Astro.params.lang as UiType) ?? "ru";
+const t = useTranslations(lang);
+
+const tt = (en: string, ru: string) => (lang === "ru" ? ru : en);
+---
+
+<Layout
+  title={`${t("projects.title")} | ${t("site.title")}`}
+  description={t("projects.subtitle")}
+  lang={lang}
+  active="projects"
+>
+  <section class="masthead">
+    <div class="mono mast-eyebrow">
+      <span style="color: var(--accent)">❦</span>&nbsp;&nbsp;{t("projects.eyebrow.workshop")}&nbsp;&nbsp;·&nbsp;&nbsp;{t("projects.eyebrow.catalogue")}
+    </div>
+    <h1 class="serif mast-title">{t("projects.title")}</h1>
+    <p class="serif mast-sub">{t("projects.subtitle")}</p>
+    <div class="mono mast-meta">
+      <span>{projects.length} {t("projects.items")}</span>
+      <span class="dim">·</span>
+      <span>{t("projects.updated")} MMXXVI.IV</span>
+      <span class="dim">·</span>
+      <span>{t("projects.sort")}: {t("projects.sort.newest")}</span>
+    </div>
+  </section>
+
+  <section class="catalog">
+    {projects.map((p) => (
+      <article id={p.id} class="big-card">
+        <div class="mock" style={`--proj-accent: ${p.accent};`}>
+          <div class="mock-grid"></div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="mono ph-tag" style={`color: ${p.accent};`}>
+                {tt(p.tag.en, p.tag.ru).toUpperCase()}
+              </div>
+              <div class="serif ph-title">{tt(p.title.en, p.title.ru)}</div>
+              <div class="ph-rule"></div>
+              <div class="serif ph-desc">{tt(p.desc.en, p.desc.ru).slice(0, 110)}…</div>
+              <div class="ph-bar">
+                <span style={`background: ${p.accent};`}></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+          <div class="mono mock-num">№ {p.num}</div>
+          <div class="mono mock-year">{p.year}</div>
+        </div>
+
+        <div class="detail">
+          <div class="mono detail-eye">{tt(p.tag.en, p.tag.ru)}</div>
+          <h3 class="serif detail-title">{tt(p.title.en, p.title.ru)}</h3>
+          <p class="serif detail-desc">{tt(p.desc.en, p.desc.ru)}</p>
+
+          <dl class="spec">
+            <div>
+              <dt>{t("projects.spec.status")}</dt>
+              <dd>{tt(p.status.en, p.status.ru)}</dd>
+            </div>
+            <div>
+              <dt>{t("projects.spec.platforms")}</dt>
+              <dd>{p.platforms}</dd>
+            </div>
+            <div>
+              <dt>{t("projects.spec.stack")}</dt>
+              <dd>{p.stack}</dd>
+            </div>
+          </dl>
+
+          <div class="actions">
+            <a class="btn-solid" href={p.url || "#"} aria-disabled={!p.url}>
+              {t("projects.cta.open")} →
+            </a>
+            <a class="btn-outline" href={p.url || "#"} aria-disabled={!p.url}>
+              {t("projects.cta.notes")}
+            </a>
+          </div>
+        </div>
+      </article>
+    ))}
+  </section>
+
+  <!-- <section class="workshop">
+    <div class="mono ws-eye">{t("projects.workshop")}</div>
+    <div class="ws-grid">
+      {workshop.map((it) => (
+        <div class="ws-item">
+          <span class="serif ws-title">{tt(it.title.en, it.title.ru)}</span>
+          <span class="mono ws-when">{it.when}</span>
+        </div>
+      ))}
+    </div>
+  </section> -->
+</Layout>
+
+<style>
+  main { display: block; }
+
+  .masthead {
+    padding: 60px 40px 40px;
+    border-bottom: 2px solid var(--fg);
+  }
+  .mast-eyebrow {
+    font-size: 11px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--fg-3);
+    margin-bottom: 18px;
+  }
+  .mast-title {
+    margin: 0; font-size: 120px; font-weight: 500;
+    letter-spacing: -0.025em; line-height: 0.92; color: var(--fg);
+  }
+  .mast-sub {
+    margin-top: 22px; font-size: 24px; font-style: italic;
+    color: var(--fg-2); max-width: 50ch;
+  }
+  .mast-meta {
+    margin-top: 36px;
+    font-size: 11px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--fg-3);
+    display: flex; gap: 32px; flex-wrap: wrap;
+  }
+  .mast-meta .dim { color: var(--fg-4); }
+
+  .catalog {
+    padding: 48px 40px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 56px;
+    row-gap: 64px;
+  }
+  .big-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: stretch;
+  }
+
+  .mock {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background: var(--proj-accent);
+    overflow: hidden;
+    border: 1px solid var(--fg);
+  }
+  .mock-grid {
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(45deg, rgba(244,237,224,0.05) 0 1px, transparent 1px 12px);
+  }
+  .phone {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 52%; aspect-ratio: 9 / 18;
+    background: #f4ede0;
+    border-radius: 22px;
+    padding: 8px;
+    box-shadow: 0 12px 0 rgba(0,0,0,0.25);
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .phone-screen {
+    flex: 1; background: var(--bg); border-radius: 14px;
+    padding: 16px 12px;
+    display: flex; flex-direction: column; gap: 8px;
+    color: var(--fg);
+  }
+  .ph-tag {
+    font-family: var(--font-mono);
+    font-size: 8px; letter-spacing: 0.2em;
+  }
+  .ph-title {
+    font-size: 16px; font-style: italic; font-weight: 600;
+    line-height: 1.05;
+  }
+  .ph-rule { height: 1px; background: var(--rule); }
+  .ph-desc {
+    font-size: 9px; line-height: 1.45; color: var(--fg-2);
+  }
+  .ph-bar {
+    margin-top: auto; display: flex; gap: 4px;
+  }
+  .ph-bar span:first-child {
+    flex: 1; height: 14px; border-radius: 3px;
+  }
+  .ph-bar span:last-child {
+    width: 14px; height: 14px; background: var(--bg-3); border-radius: 3px;
+  }
+  .mock-num, .mock-year {
+    position: absolute; top: 14px;
+    font-size: 10px; letter-spacing: 0.22em;
+    color: rgba(244,237,224,0.85);
+  }
+  .mock-num { left: 14px; }
+  .mock-year { right: 14px; }
+
+  .detail {
+    display: flex; flex-direction: column;
+    border-top: 2px solid var(--fg);
+    padding-top: 18px;
+  }
+  .detail-eye {
+    font-size: 11px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .detail-title {
+    margin: 0; font-size: 36px; font-weight: 500;
+    letter-spacing: -0.015em; line-height: 1.05; color: var(--fg);
+  }
+  .detail-desc {
+    margin-top: 16px; font-size: 17px; line-height: 1.5;
+    color: var(--fg-2);
+  }
+
+  .spec {
+    margin: 24px 0 0; padding-top: 24px;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.1em; color: var(--fg-3);
+  }
+  .spec > div {
+    display: flex; border-top: 1px solid var(--rule);
+    padding: 8px 0; text-transform: uppercase;
+  }
+  .spec dt { width: 110px; color: var(--fg-4); margin: 0; }
+  .spec dd { margin: 0; color: var(--fg-2); }
+
+  .actions {
+    display: flex; gap: 12px; margin-top: 20px;
+  }
+  .actions [aria-disabled="true"] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .workshop {
+    padding: 40px 40px 80px;
+    border-top: 1px solid var(--rule);
+  }
+  .ws-eye {
+    font-size: 11px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--fg-3);
+    margin-bottom: 20px;
+  }
+  .ws-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .ws-item {
+    border-top: 1px solid var(--fg);
+    padding-top: 14px;
+    display: flex; justify-content: space-between;
+    align-items: baseline; gap: 16px;
+  }
+  .ws-title { font-size: 22px; font-style: italic; color: var(--fg); }
+  .ws-when {
+    font-size: 10px; letter-spacing: 0.22em; color: var(--fg-3);
+  }
+
+  @media (max-width: 1100px) {
+    .catalog { grid-template-columns: 1fr; }
+    .mast-title { font-size: 80px; }
+    .ws-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 700px) {
+    .masthead { padding: 40px 20px 28px; }
+    .catalog { padding: 32px 20px; gap: 40px; }
+    .big-card { grid-template-columns: 1fr; gap: 24px; }
+    .detail-title { font-size: 28px; }
+    .workshop { padding: 32px 20px 60px; }
+  }
+</style>

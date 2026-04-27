@@ -1,44 +1,210 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-
-import { getLangFromUrl, useTranslations } from "../../i18n/utils";
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
+import { useTranslations, type UiType } from "../../i18n/utils";
 
 export async function getStaticPaths() {
-  return ["en", "ru"].map((lang) => {
-    return { params: { lang } };
-  });
+  return ["en", "ru"].map((lang) => ({ params: { lang } }));
 }
+
+const lang = (Astro.params.lang as UiType) ?? "ru";
+const t = useTranslations(lang);
+const tt = (en: string, ru: string) => (lang === "ru" ? ru : en);
+
+const links = [
+  {
+    name: "Dzen",
+    handle: "@ian",
+    url: "https://dzen.ru/ian",
+    display: "dzen.ru/ian",
+    kind: tt("Long-form, RU", "Длинные тексты, RU"),
+  },
+  {
+    name: "Medium",
+    handle: "@ian.mezinskii",
+    url: "https://medium.com/@ian.mezinskii",
+    display: "medium.com/@ian.mezinskii",
+    kind: tt("Long-form, EN", "Длинные тексты, EN"),
+  },
+  {
+    name: "YouTube",
+    handle: "@PhilosophyIan",
+    url: "https://www.youtube.com/@PhilosophyIan",
+    display: "youtube.com/@PhilosophyIan",
+    kind: tt("Videos", "Видео"),
+  },
+  {
+    name: "Facebook",
+    handle: "ian.mezinskii",
+    url: "https://www.facebook.com/share/1NXnnAy3La",
+    display: "facebook.com/ian.mezinskii",
+    kind: tt("Notes", "Заметки"),
+  },
+  {
+    name: "Instagram",
+    handle: "@ian.mezinskii",
+    url: "https://instagram.com/ian.mezinskii",
+    display: "instagram.com/ian.mezinskii",
+    kind: tt("Photos", "Фото"),
+  },
+  {
+    name: "Email",
+    handle: "ian.mezinskii@gmail.com",
+    url: "mailto:ian.mezinskii@gmail.com",
+    display: "ian.mezinskii@gmail.com",
+    kind: tt("Direct", "Напрямую"),
+  },
+];
 ---
 
-<Layout title={`${t("nav.about")} | ${t("site.title")}`} description={t("site.description")} lang={lang}>
-  <div class="flex items-center flex-col mb-8">
-    <h1 class="uppercase font-bold mb-8 text-4xl sm:text-6xl">{t("nav.about")}</h1>
-    <ul class="text-2xl flex flex-col items-center sm:block sm:text-3xl">
-      <li class="mb-2">
-        <a class="no-underline" href="https://dzen.ru/ian"
-          ><i class="fa-brands fa-yandex w-8"></i>&nbsp;Dzen</a>
-      </li>
-      <li class="mb-2" class="mb-2">
-        <a class="no-underline" href="https://medium.com/@ian.mezinskii"
-          ><i class="fa-brands fa-medium w-8"></i>&nbsp;Medium</a>
-      </li>
-      <li class="mb-2">
-        <a class="no-underline" href="https://www.youtube.com/@PhilosophyIan"
-          ><i class="fa-brands fa-youtube w-8"></i>&nbsp;Youtube</a>
-      </li>
-      <li class="mb-2">
-        <a class="no-underline" href="https://www.facebook.com/share/1NXnnAy3La"
-          ><i class="fa-brands fa-facebook w-8"></i>&nbsp;Facebook</a
-        >
-      </li>
-       <li class="mb-2">
-        <a class="no-underline" href="https://instagram.com/ian.mezinskii"
-          ><i class="fa-brands fa-instagram w-8"></i>&nbsp;Instagram</a
-        >
-      </li>
-    </ul>
-  </div>
+<Layout
+  title={`${t("nav.about")} | ${t("site.title")}`}
+  description={t("about.intro")}
+  lang={lang}
+  active="about"
+>
+  <section class="masthead">
+    <div class="left">
+      <div class="mono mast-eyebrow">
+        {t("about.eyebrow")}&nbsp;·&nbsp;{t("about.channels")}
+      </div>
+      <h1 class="serif mast-title">
+        {t("about.title.a")}<br />
+        <em>{t("about.title.b")}</em>
+      </h1>
+    </div>
+    <p class="serif mast-intro">{t("about.intro")}</p>
+  </section>
+
+  <section class="links">
+    <div class="links-head mono">
+      <span>№</span>
+      <span>{t("about.col.channel")}</span>
+      <span>{t("about.col.address")}</span>
+      <span>{t("about.col.kind")}</span>
+      <span class="right">→</span>
+    </div>
+    {links.map((l, i) => (
+      <a class="link-row" href={l.url} target="_blank" rel="noopener">
+        <span class="mono num">{String(i + 1).padStart(2, "0")}</span>
+        <span class="serif name">{l.name}</span>
+        <span class="mono addr">{l.display}</span>
+        <span class="serif kind">{l.kind}</span>
+        <span class="mono open">{t("about.col.open")} →</span>
+      </a>
+    ))}
+  </section>
+
+  <section class="colophon">
+    <div>
+      <div class="mono col-eye">{t("about.colophon")}</div>
+      <p class="serif col-body">{t("about.colophon.body")}</p>
+    </div>
+    <div>
+      <div class="mono col-eye">{t("about.desk")}</div>
+      <p class="serif col-body italic">{t("about.desk.body")}</p>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  main { display: block; }
+
+  .masthead {
+    padding: 60px 40px 40px;
+    border-bottom: 2px solid var(--fg);
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    align-items: end;
+  }
+  .mast-eyebrow {
+    font-size: 11px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--fg-3);
+    margin-bottom: 16px;
+  }
+  .mast-title {
+    margin: 0; font-size: 120px; font-weight: 500;
+    letter-spacing: -0.025em; line-height: 0.9;
+  }
+  .mast-title em { font-style: italic; color: var(--accent); }
+  .mast-intro {
+    margin: 0; font-size: 22px; font-style: italic;
+    line-height: 1.45; color: var(--fg-2);
+  }
+
+  .links { padding: 32px 40px 64px; }
+  .links-head {
+    display: grid;
+    grid-template-columns: 60px 1.5fr 2fr 1.5fr 80px;
+    gap: 24px;
+    font-size: 10px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--fg-3);
+    border-bottom: 2px solid var(--fg);
+    padding-bottom: 12px;
+  }
+  .links-head .right { text-align: right; }
+
+  .link-row {
+    display: grid;
+    grid-template-columns: 60px 1.5fr 2fr 1.5fr 80px;
+    gap: 24px;
+    align-items: baseline;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--fg);
+  }
+  .link-row:hover { background: var(--bg-2); }
+  .num {
+    font-size: 11px; letter-spacing: 0.18em; color: var(--fg-4);
+  }
+  .name {
+    font-size: 32px; font-weight: 500; letter-spacing: -0.015em;
+  }
+  .addr {
+    font-size: 14px; color: var(--fg-2); letter-spacing: 0.02em;
+  }
+  .kind {
+    font-size: 16px; font-style: italic; color: var(--fg-3);
+  }
+  .open {
+    text-align: right;
+    font-size: 11px; color: var(--accent); letter-spacing: 0.18em;
+  }
+
+  .colophon {
+    padding: 0 40px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    border-top: 1px solid var(--rule);
+    padding-top: 40px;
+  }
+  .col-eye {
+    font-size: 10px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--fg-3);
+    margin-bottom: 14px;
+  }
+  .col-body {
+    margin: 0; font-size: 18px; line-height: 1.55; color: var(--fg-2);
+  }
+  .col-body.italic { font-style: italic; }
+
+  @media (max-width: 1100px) {
+    .masthead { grid-template-columns: 1fr; gap: 28px; padding: 48px 24px 32px; }
+    .mast-title { font-size: 80px; }
+    .links-head, .link-row {
+      grid-template-columns: 40px 1.2fr 2fr 1.2fr 60px;
+      gap: 16px;
+    }
+    .name { font-size: 24px; }
+  }
+  @media (max-width: 700px) {
+    .links-head { display: none; }
+    .link-row {
+      grid-template-columns: 1fr;
+      gap: 4px; padding: 16px 0;
+    }
+    .open { text-align: left; }
+    .colophon { grid-template-columns: 1fr; gap: 32px; padding: 0 20px 60px; padding-top: 32px; }
+  }
+</style>

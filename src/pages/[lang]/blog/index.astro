@@ -1,125 +1,283 @@
 ---
-import { getBlogPosts } from "../../../content/config";
-import FormattedDate from "../../../components/FormattedDate.astro";
 import Layout from "../../../layouts/Layout.astro";
-import { Image } from "astro:assets";
-import { useTranslations } from "../../../i18n/utils";
-
-const { lang } = Astro.params;
-
-const t = useTranslations();
-
-const posts = (await getBlogPosts())
-  ?.filter((blog) => {
-    return blog?.data?.lang === lang;
-  })
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+import {
+  getBlogPosts,
+  postAccent,
+  postMinutes,
+  postSection,
+  postTag,
+} from "../../../content/config";
+import FormattedDate from "../../../components/FormattedDate.astro";
+import { useTranslations, type UiType } from "../../../i18n/utils";
 
 export async function getStaticPaths() {
-  return ["en", "ru"].map((lang) => {
-    return { params: { lang } };
-  });
+  return ["en", "ru"].map((lang) => ({ params: { lang } }));
 }
+
+const lang = (Astro.params.lang as UiType) ?? "ru";
+const t = useTranslations(lang);
+
+const posts = (await getBlogPosts())
+  .filter((p) => p.data.lang === lang)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const [hero, ...rest] = posts;
+const restWithIdx = rest.map((p, i) => ({ p, accent: postAccent(p, i + 1), idx: i }));
+const heroAccent = hero ? postAccent(hero, 0) : "#8b1e1e";
+const numerals = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+const plates = ["ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi"];
 ---
 
 <Layout
   title={`${t("site.title")} | ${t("nav.blog")}`}
-  description={t("nav.blog")}
+  description={t("blog.masthead.subtitle")}
   lang={lang}
+  active="blog"
 >
-  <section>
-    <ul>
-      {
-        posts.map((post) => (
-          <li>
-            <a href={`/${lang}/blog/${post.blog_slug}`}>
-              <Image
-                width={720}
-                height={360}
-                src={post.data.heroImage || ""}
-                alt={post.data.title}
-                loading="eager"
-                itemprop="image"
-              />
-              <h4 class="title">{post.data.title}</h4>
-              <p class="date">
-                <FormattedDate date={post.data.pubDate} lang={post.data.lang} />
-              </p>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
+  <section class="masthead">
+    <div class="mast-row">
+      <div>
+        <div class="mono mast-eyebrow">
+          Vol. III · {t("blog.masthead.issue")} XII · MMXXVI
+        </div>
+        <h1 class="serif mast-title">
+          {lang === "ru" ? "" : "The "}<em>{t("blog.masthead.title")}</em>
+        </h1>
+        <div class="serif mast-sub">{t("blog.masthead.subtitle")}</div>
+      </div>
+    </div>
+  </section>
+
+  {hero && (
+    <section class="hero-feature">
+      <a class="hero-art" href={`/${lang}/blog/${hero.blog_slug}`}>
+        <div class="hero-plate" style={`background: ${heroAccent};`}>
+          {hero.data.heroImage ? (
+            <img src={hero.data.heroImage} alt={hero.data.title} loading="lazy" class="hero-plate-img" />
+          ) : (
+            <>
+              <div class="hero-plate-grid"></div>
+              <div class="serif hero-plate-num">V</div>
+            </>
+          )}
+          <div class="mono hero-plate-meta">{postSection(hero)} · plate I</div>
+        </div>
+        <div class="hero-detail">
+          <div class="mono hero-detail-eye">— {t("blog.featured")}</div>
+          <h2 class="serif hero-detail-title">{hero.data.title}</h2>
+          <p class="serif hero-detail-desc">{hero.data.description}</p>
+          <div class="mono hero-detail-meta">
+            <span><FormattedDate date={hero.data.pubDate} lang={hero.data.lang} /></span>
+            <span class="dim">·</span>
+            <span>{postMinutes(hero)} {t("blog.minRead")}</span>
+            <span class="dim">·</span>
+            <span>{postTag(hero)}</span>
+          </div>
+        </div>
+      </a>
+    </section>
+  )}
+
+  <section class="index-grid">
+    <div class="index-head mono">
+      <span>{t("blog.index.title")}</span>
+      <span>{rest.length} {t("blog.index.entries")}</span>
+    </div>
+    <div class="grid">
+      {restWithIdx.map(({ p, accent, idx }) => (
+        <a class="card" href={`/${lang}/blog/${p.blog_slug}`}>
+          <div class="card-plate" style={`background: ${accent};`}>
+            {p.data.heroImage ? (
+              <img src={p.data.heroImage} alt={p.data.title} loading="lazy" class="card-plate-img" />
+            ) : (
+              <>
+                <div class="card-plate-grid"></div>
+                <div class="serif card-plate-num">{numerals[idx % numerals.length]}</div>
+              </>
+            )}
+            <div class="mono card-plate-meta">plate {plates[idx % plates.length]}</div>
+          </div>
+          <div class="mono card-eyebrow">{postSection(p)}</div>
+          <h3 class="serif card-title">{p.data.title}</h3>
+          <p class="serif card-desc">{p.data.description}</p>
+          <div class="mono card-foot">
+            <span><FormattedDate date={p.data.pubDate} lang={p.data.lang} /></span>
+            <span>{postMinutes(p)} {t("blog.min")}</span>
+          </div>
+        </a>
+      ))}
+    </div>
   </section>
 </Layout>
 
 <style>
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-  main {
-    width: 960px;
+  main { display: block; }
+
+  .masthead {
+    padding: 40px 40px 32px;
+    border-bottom: 2px solid var(--fg);
   }
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+  .mast-row {
+    display: flex; justify-content: space-between; align-items: flex-end;
   }
-  ul li {
-    width: calc(50% - 1rem);
+  .mast-eyebrow {
+    font-size: 11px; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--fg-3);
+    margin-bottom: 14px;
   }
-  ul li * {
-    text-decoration: none;
-    transition: 0.2s ease;
+  .mast-title {
+    margin: 0; font-size: 96px; font-weight: 500;
+    letter-spacing: -0.025em; line-height: 0.95;
   }
-  ul li:first-child {
-    width: 100%;
-    margin-bottom: 1rem;
-    text-align: center;
+  .mast-title em { font-style: italic; color: var(--accent); }
+  .mast-sub {
+    font-size: 22px; font-style: italic;
+    color: var(--fg-2); margin-top: 12px;
   }
-  ul li:first-child img {
-    width: 100%;
+
+  .hero-feature {
+    padding: 48px 40px;
+    border-bottom: 1px solid var(--rule);
   }
-  ul li:first-child .title {
-    font-size: 2.369rem;
+  .hero-art {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 56px;
+    align-items: center;
+    color: var(--fg);
   }
-  ul li img {
-    margin-bottom: 0.5rem;
-    border-radius: 12px;
+  .hero-plate {
+    position: relative;
+    aspect-ratio: 5 / 4;
+    overflow: hidden;
   }
-  ul li a {
-    @apply block;
+  .hero-plate-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
   }
-  .title {
-    @apply text-dark m-0 leading-none;
+  .hero-plate-grid {
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(244,237,224,0.08) 0 1px, transparent 1px 14px),
+      repeating-linear-gradient(90deg, rgba(244,237,224,0.05) 0 1px, transparent 1px 14px);
   }
-  .date {
-    margin: 0;
-    color: rgb(var(--gray));
+  .hero-plate-num {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 240px; font-weight: 600; font-style: italic;
+    color: rgba(244,237,224,0.92);
+    letter-spacing: -0.04em;
   }
-  ul li a:hover h4,
-  ul li a:hover .date {
-    @apply text-gray-light ease-out;
+  .hero-plate-meta {
+    position: absolute; bottom: 18px; left: 18px;
+    font-size: 10px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: rgba(244,237,224,0.95);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    z-index: 1;
   }
-  ul a:hover img {
-    @apply drop-shadow-2xl text-gray-light ease-out;
+  .hero-detail-eye {
+    font-size: 10px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 18px;
   }
-  @media (max-width: 720px) {
-    ul {
-      gap: 0.5em;
-    }
-    ul li {
-      width: 100%;
-      text-align: center;
-    }
-    ul li:first-child {
-      margin-bottom: 0;
-    }
-    ul li:first-child .title {
-      font-size: 1.563em;
-    }
+  .hero-detail-title {
+    margin: 0; font-size: 64px; font-weight: 500;
+    letter-spacing: -0.02em; line-height: 1; color: var(--fg);
+  }
+  .hero-detail-desc {
+    margin-top: 22px; font-size: 22px; line-height: 1.45;
+    font-style: italic; color: var(--fg-2);
+  }
+  .hero-detail-meta {
+    margin-top: 28px;
+    font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--fg-3);
+    display: flex; gap: 20px; flex-wrap: wrap;
+  }
+  .hero-detail-meta .dim { color: var(--fg-4); }
+
+  .index-grid { padding: 48px 40px 80px; }
+  .index-head {
+    font-size: 11px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--fg-3);
+    margin-bottom: 22px;
+    display: flex; justify-content: space-between;
+    border-bottom: 1px solid var(--fg);
+    padding-bottom: 14px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+  .card {
+    display: flex; flex-direction: column; gap: 14px;
+    color: var(--fg);
+  }
+  .card-plate {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .card-plate-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .card:hover .card-plate-img { transform: scale(1.03); }
+  .card-plate-grid {
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(45deg, rgba(244,237,224,0.06) 0 1px, transparent 1px 8px);
+  }
+  .card-plate-num {
+    position: absolute; right: 14px; bottom: 6px;
+    font-size: 96px; font-weight: 600; font-style: italic;
+    color: rgba(244,237,224,0.92);
+    letter-spacing: -0.04em; line-height: 0.85;
+  }
+  .card-plate-meta {
+    position: absolute; top: 12px; left: 12px;
+    font-size: 9px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: rgba(244,237,224,0.95);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    z-index: 1;
+  }
+  .card-eyebrow {
+    font-size: 10px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--accent);
+  }
+  .card-title {
+    margin: 0; font-size: 28px; font-weight: 500;
+    line-height: 1.1; letter-spacing: -0.015em;
+  }
+  .card-desc {
+    margin: 0; font-size: 16px; font-style: italic;
+    color: var(--fg-2); line-height: 1.4;
+  }
+  .card-foot {
+    margin-top: auto; padding-top: 10px;
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--fg-3);
+    display: flex; justify-content: space-between;
+    border-top: 1px solid var(--rule);
+  }
+
+  @media (max-width: 1100px) {
+    .hero-art { grid-template-columns: 1fr; gap: 32px; }
+    .hero-plate-num { font-size: 160px; }
+    .hero-detail-title { font-size: 48px; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 700px) {
+    .masthead { padding: 32px 20px 24px; }
+    .mast-title { font-size: 64px; }
+    .hero-feature { padding: 32px 20px; }
+    .hero-detail-title { font-size: 36px; }
+    .index-grid { padding: 32px 20px 60px; }
+    .grid { grid-template-columns: 1fr; }
   }
 </style>

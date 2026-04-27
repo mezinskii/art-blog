@@ -1,44 +1,35 @@
 ---
-// Import the global.css file here so that it is included on
-// all pages through the use of the <BaseHead /> component.
 import {
-	LANGUAGES,
-	pathNameIsInLanguage,
-	DEFAULT_LANG,
-	getLocalizedPathname,
-	type UiType,
+  LANGUAGES,
+  pathNameIsInLanguage,
+  DEFAULT_LANG,
+  getLocalizedPathname,
+  type UiType,
 } from "../i18n/utils";
 import "../styles/global.css";
 
 interface Props {
-	title: string;
-	description: string;
-	image?: string;
-	lang?: string;
+  title: string;
+  description: string;
+  image?: string;
+  lang?: string;
 }
 
 const canonicalPathname = pathNameIsInLanguage(Astro.url.pathname, DEFAULT_LANG)
-	? Astro.url.pathname
-	: getLocalizedPathname(Astro.url.pathname, DEFAULT_LANG);
+  ? Astro.url.pathname
+  : getLocalizedPathname(Astro.url.pathname, DEFAULT_LANG);
 const canonicalURL = new URL(canonicalPathname, Astro.site);
 
-const {
-	lang,
-	title,
-	description,
-	image,
-} = Astro.props;
+const { title, description, image } = Astro.props;
 
-const alternateLang = Object.keys(LANGUAGES);
-const alternateLinks = alternateLang.map((_lang: UiType) => {
-	return {
-		href: new URL(getLocalizedPathname(Astro.url.pathname, _lang), Astro.site),
-		hreflang: _lang,
-	};
-});
+const alternateLinks = (Object.keys(LANGUAGES) as UiType[]).map((_lang) => ({
+  href: new URL(getLocalizedPathname(Astro.url.pathname, _lang), Astro.site),
+  hreflang: _lang,
+}));
+
+const ogImage = image ? new URL(image, Astro.url) : undefined;
 ---
 
-<!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -46,47 +37,31 @@ const alternateLinks = alternateLang.map((_lang: UiType) => {
 
 <link rel="sitemap" href="/sitemap-index.xml" />
 
-<!-- Font preloads -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
-	rel="preload"
-	href="/fonts/Poppins-Regular.ttf"
-	as="font"
-	type="font/ttf"
-	crossorigin
-/>
-<link
-	rel="preload"
-	href="/fonts/Poppins-Bold.ttf"
-	as="font"
-	type="font/ttf"
-	crossorigin
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
 />
 
-<!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
-<!-- Alternate URLs -->
-{
-	alternateLinks.map(({ href, hreflang }) => (
-		<link rel="alternate" href={href} hreflang={hreflang} />
-	))
-}
+{alternateLinks.map(({ href, hreflang }) => (
+  <link rel="alternate" href={href} hreflang={hreflang} />
+))}
 
-<!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
 
-<!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.url)} />
+{ogImage && <meta property="og:image" content={ogImage} />}
 
-<!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={Astro.url} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
+{ogImage && <meta property="twitter:image" content={ogImage} />}
