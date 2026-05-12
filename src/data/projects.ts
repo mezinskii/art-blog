@@ -79,7 +79,7 @@ export const projects: Project[] = [
     year: 2026,
     accent: "#6b4a2a",
     glyph: "AVR",
-    url: "https://markus-aurelius-web.vercel.app/",
+    url: "https://readaurelius.org",
     status: { en: "In progress", ru: "В работе" },
     platforms: "Web",
     stack: "Astro",

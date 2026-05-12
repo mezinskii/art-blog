@@ -32,7 +32,13 @@ const ogImage = image ? new URL(image, Astro.url) : undefined;
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="Ian Mezinskii" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="theme-color" content="#f4ede0" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#14110d" media="(prefers-color-scheme: dark)" />
 <meta name="generator" content={Astro.generator} />
 
 <link rel="sitemap" href="/sitemap-index.xml" />
