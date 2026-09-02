@@ -39,6 +39,17 @@ const tt = (en: string, ru: string) => (lang === "ru" ? ru : en);
       <article id={p.id} class="big-card">
         <div class="mock" style={`--proj-accent: ${p.accent};`}>
           <div class="mock-grid"></div>
+          {p.cover ? (
+            <img
+              class="mock-cover"
+              src={tt(p.cover.en, p.cover.ru)}
+              alt={tt(p.title.en, p.title.ru)}
+              width="1200"
+              height="630"
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
           <div class="phone">
             <div class="phone-screen">
               <div class="mono ph-tag" style={`color: ${p.accent};`}>
@@ -53,6 +64,7 @@ const tt = (en: string, ru: string) => (lang === "ru" ? ru : en);
               </div>
             </div>
           </div>
+          )}
           <div class="mono mock-num">№ {p.num}</div>
           <div class="mono mock-year">{p.year}</div>
         </div>
@@ -151,6 +163,15 @@ const tt = (en: string, ru: string) => (lang === "ru" ? ru : en);
     background: var(--proj-accent);
     overflow: hidden;
     border: 1px solid var(--fg);
+  }
+  /* The covers are landscape (1200×630) and the slot is portrait, so the plate
+     is mounted whole on the accent field rather than cropped to fill it — the
+     grid of cards stays even and no title gets cut off. */
+  .mock-cover {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 32px); height: auto;
+    border: 1px solid rgba(0,0,0,0.18);
   }
   .mock-grid {
     position: absolute; inset: 0;

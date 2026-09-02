@@ -9,6 +9,14 @@ export type Project = {
   year: number;
   accent: string;
   glyph: string;
+  /**
+   * A real picture of the project, one per language.
+   *
+   * Only the live projects have one. The rest keep the drawn phone mock, and
+   * the difference is the point: a project still being worked on shows its own
+   * face, a dormant one shows a schematic.
+   */
+  cover?: ProjectI18n;
   url: string;
   status: ProjectI18n;
   platforms: string;
@@ -62,6 +70,10 @@ export const projects: Project[] = [
     year: 2026,
     accent: "#5d6b3a",
     glyph: "✧",
+    cover: {
+      en: "/images/projects/prayers-en.png",
+      ru: "/images/projects/prayers-ru.png",
+    },
     url: "https://ancientprayers.org/",
     status: { en: "In progress", ru: "В работе" },
     platforms: "Web",
@@ -79,6 +91,10 @@ export const projects: Project[] = [
     year: 2026,
     accent: "#6b4a2a",
     glyph: "AVR",
+    cover: {
+      en: "/images/projects/aurelius-en.png",
+      ru: "/images/projects/aurelius-ru.png",
+    },
     url: "https://readaurelius.org",
     status: { en: "In progress", ru: "В работе" },
     platforms: "Web",
